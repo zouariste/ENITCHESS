@@ -3,13 +3,10 @@
 * Practical realization and software simulation using SFML as the graphic interface library.
 * Implementation of some basics artificial intelligence algorithms : Alpha–beta pruning - Minmax Algorithm.
 
-## Screenshots
+## Screenshot
 
-<div align="center">
-  <img height="25%" width="25%" src="https://zouariste.github.io/mohamedzouari/img/portfolio/enitchess2.png">
+<div align="left">
+  <img height="70%" width="70%" src="https://zouariste.github.io/mohamedzouari/img/portfolio/enitchess/2.png">
 </div>
-<br>
-<div align="center">
-  <img height="25%" width="25%" src="https://zouariste.github.io/mohamedzouari/img/portfolio/enitchess/2.png">
-</div>
+
 
