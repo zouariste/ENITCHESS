@@ -6,7 +6,7 @@
 ## Screenshot
 
 <div align="left">
-  <img height="70%" width="70%" src="https://zouariste.github.io/mohamedzouari/img/portfolio/enitchess/2.png">
+  <img height="50%" width="50%" src="https://zouariste.github.io/mohamedzouari/img/portfolio/enitchess/2.png">
 </div>
 
 
