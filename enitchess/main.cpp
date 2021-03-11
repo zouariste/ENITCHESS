@@ -10,14 +10,7 @@ int main()
 {
 	
 	Partie x; 
-	//Pour Simuler une partie veuillez Choisir la difficulté respective
+	//Pour Simuler une partie veuillez Choisir la difficultï¿½ respective
 	//x.blanc = new Machine(2);	x.noir = new Machine(1); x.blanc->couleur = 1; x.noir->couleur = 2;
 	x.lancerjeu();
-
-
-
-	
-		
-	
-	
 }

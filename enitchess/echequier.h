@@ -1,7 +1,6 @@
 #ifndef ECHEQUIER_H_INCLUDED
 #define ECHEQUIER_H_INCLUDED
 #include "prototype.h"
-#include "windows.h"
 #include <stdio.h>
 class piece;
 class Joueur;
@@ -217,19 +216,17 @@ void echequier::printchess()
 				ch = this->Tab[i][j]->symbole;
 				q = this->Tab[i][j]->joueur;
 			}
-			//printcol(179,0);
-			//printcol(Tab[i][j].symbole,Tab[i][j].joueur);
-			printcol(ch, q);
+
 		}
 
-		printcol(179, 0); printf("\n");
+		 // printcol(179, 0); printf("\n");
 		if (i<7)
 		{
-			printf("                                "); printcol(195, 0); printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n", 196, 197, 196, 197, 196, 197, 196, 197, 196, 197, 196, 197, 196, 197, 196, 180);
+			printf("                                "); //printcol(195, 0); printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n", 196, 197, 196, 197, 196, 197, 196, 197, 196, 197, 196, 197, 196, 197, 196, 180);
 		}
 		else
 		{
-			printf("                                "); printcol(192, 0); printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n", 196, 193, 196, 193, 196, 193, 196, 193, 196, 193, 196, 193, 196, 193, 196, 217);
+			printf("                                "); //printcol(192, 0); printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n", 196, 193, 196, 193, 196, 193, 196, 193, 196, 193, 196, 193, 196, 193, 196, 217);
 		}
 	}
 	 printf("                                 A B C D E F G H \n                  ");

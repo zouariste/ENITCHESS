@@ -1,13 +1,14 @@
 #ifndef PARTIE_H_INCLUDED
 #define PARTIE_H_INCLUDED
+
 #include <SFML/Graphics.hpp>
 #include <time.h>
 #include <iostream>
 #include "prototype.h"
 #include "echequier.h"
 #include "classjoueur.h"
-#include "Connector.hpp"
-#include <time.h>
+#include <unistd.h>
+
 using namespace sf;
 using namespace std;
 Vector2f offset(28, 28);
@@ -30,9 +31,9 @@ public:
 	void reprendrePartie();
 	void sauvegarderPartie();
 }; 
+
 std::string position = "";
 Vector2i pos;
-
 
 std::string toChessNote(Vector2f p)
 {
@@ -42,13 +43,13 @@ std::string toChessNote(Vector2f p)
 	return s;
 }
 
-
 Vector2f toCoord(char a, char b)
 {
 	int x = int(a) - 97;
 	int y = 7 - int(b) + 49;
 	return Vector2f(x * 56, y * 56);
 }
+
 void affiche2(echequier &E, int board[8][8])
 {
 	int signe=0, p;
@@ -99,7 +100,6 @@ void move(std::string str,Sprite f[])
 
 }
 
-
 void loadPosition(int board[8][8],Sprite f[])
 {
 	int k = 0;
@@ -120,46 +120,8 @@ void loadPosition(int board[8][8],Sprite f[])
 		move(position.substr(i, 4));
 }
 
-/*
-void affiche2(echequier &E, int board[8][8])
-{
-	int signe = 0, p; coord loc;
-	for (int i = 0; i < 8; i++)
-		for (int j = 0; j < 8; j++)
-		{
-			loc.x = i; loc.y = j;
-			if (E.verifpiece(loc))
-			{
-				if (E.getpiece(loc)->joueur == 2)
-					signe = -1;
-				else
-					signe = 1;
-				switch (E.getpiece(loc)->valeur)
-				{
-				case 999:
-					p = 5; break;
-				case 1:
-					p = 6; break;
-				case 4:
-					p = 2; break;
-				case 3:
-					p = 3; break;
-				case 5:
-					p = 1; break;
-				case 10:
-					p = 4; break;
-				}
-			}
-			else
-				p = 0;
-			board[i][j] = p * signe;
-		}
-}
- */
-
 void menuchoix(int &mode)
 {
-
 	RenderWindow window(VideoMode(504, 604), "ENITCHESS");
 	Texture t1, t2, t3, t4, t5, t6; Sprite f[5];
 	t1.loadFromFile("images/Menu.png");
@@ -232,52 +194,12 @@ void menuchoix(int &mode)
 						window.close();
 						mode = 5;
 					}
-			/*if (f[0].getGlobalBounds().contains(pos.x, pos.y))
-			if (e.type == Event::MouseButtonReleased)
-			if (e.key.code == Mouse::Left)
-			{
-			window.close();
-			partie(E, 1, 1);
-			}
-			if (f[1].getGlobalBounds().contains(pos.x, pos.y))
-			if (e.type == Event::MouseButtonReleased)
-			if (e.key.code == Mouse::Left)
-			{
-			window.close();
-			partie(E, 1, 1);
-			}
-			if (f[2].getGlobalBounds().contains(pos.x, pos.y))
-			if (e.type == Event::MouseButtonReleased)
-			if (e.key.code == Mouse::Left)
-			{
-			window.close();
-			partie(E, 1, 1);
-			if (f[3].getGlobalBounds().contains(pos.x, pos.y))
-			if (e.type == Event::MouseButtonReleased)
-			if (e.key.code == Mouse::Left)
-			{
-			window.close();
-			partie(E, 1, 1);
-			}
-			if (f[4].getGlobalBounds().contains(pos.x, pos.y))
-			if (e.type == Event::MouseButtonReleased)
-			if (e.key.code == Mouse::Left)
-			{
-			window.close();
-			partie(E, 1, 1);
-			}*/
 		}
-		/*
-		int a; std::cin >> a;
-		if (a)
-		window.close(); partie(E);*/
 	}
-
 }
 
 void aide()
 {
-
 	RenderWindow window(VideoMode(504, 604), "ENITCHESS");
 	Texture t1;
 	t1.loadFromFile("images/aidee.png");
@@ -306,7 +228,6 @@ void aide()
 	}
 
 }
-
 
 void menudeb(echequier &E, int &nbtour, int &mode,Partie *p)
 {
@@ -379,7 +300,6 @@ void menudeb(echequier &E, int &nbtour, int &mode,Partie *p)
 	}
 
 }
-
 
 piece* Humain::choisirpiece()
 {
@@ -506,7 +426,6 @@ piece* Humain::choisirpiece()
 	
 }
 
-
 void menufin(echequier &E,int nbtour, int mode)
 {
 
@@ -559,23 +478,15 @@ void menufin(echequier &E,int nbtour, int mode)
 				if (e.type == Event::MouseButtonPressed)
 					if (e.key.code == Mouse::Left)
 					{
-						window.close(); Sleep(200);
+						window.close(); usleep(200);
 						Partie x; x.lancerjeu();
 					}
-
-
 		}
-
 	}
-
 }
-
-
-
 
 Partie::Partie() //a remplacer pour save load et a ajouter deplacement legal NB elle utilise nbtour+1
 {
-	
 	int nb,mode;
 	menudeb(this->grille, nb, mode, this);
 	this->nbtour=nb;
@@ -586,17 +497,15 @@ Partie::Partie() //a remplacer pour save load et a ajouter deplacement legal NB 
 		this->noir = new Machine(mode);
     noir->couleur=2;
 	blanc->couleur = 1; 
-    //this->grille.deplacementnaif(1);
-	
 }
 
 void essaye(Sprite &f,int x,int y)
 {
 	f.setPosition(56 * x, 56 * y);
 }
+
 void Partie::lancerjeu()
 {
-	
 	Sprite f[35]; //figures
 	RenderWindow window(VideoMode(504, 560), "ENITCHESS");
 	Texture t1, t2, t3, t4, t5, t6, t7, t8, t9, t10; 
@@ -824,25 +733,20 @@ void Partie::lancerjeu()
 				}
 				this->grille.deplacementnaif(nbtour + 1);
 				this->grille.deplacementlegal(nbtour);
-				//this->grille.printchess();
 
 				//std::cout << "mouvement"<<ini.x << ' ' << ini.y << ' ' << dest.x << ' ' << dest.y << endl;
 				if (this->grille.finpartie(nbtour))
 				{
 					window.close(); menufin(this->grille, nbtour, mode);
 				}
-				Sleep(500);
+				usleep(500);
 				this->nbtour++;
 
 
 			}
-			//else { this->grille.printchess(); std::cout << ini << "  " << dest; int v; cin >> v; }
 		}
 		if (isMove) f[n].setPosition(pos.x - dx, pos.y - dy);
 		
-
-
-
 		////// dessiner le tout  ///////
 		window.clear();
 		window.draw(sBoard);
@@ -921,9 +825,5 @@ void Partie::sauvegarderPartie()
 		}
 	}
 }
-
-
-
-
 
 #endif // PARTIE_H_INCLUDED

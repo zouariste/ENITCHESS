@@ -2,10 +2,9 @@
 #define PROTOTYPE_H_INCLUDED
 #include <stdio.h>
 #include <iostream>
-#include<stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include<windows.h>
 #include <fstream>
 using namespace std;
 class coord{
@@ -41,22 +40,6 @@ public:
     return 0;
     }
 };
-void printcol(int sym,int i)
-{
-    HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
-    switch (i)
-    {
-        case 1:
-            SetConsoleTextAttribute(h,14);
-            printf("%c",sym);break;
-        case 2:
-            SetConsoleTextAttribute(h,10);
-            printf("%c",sym);break;
-        case 0:
-            SetConsoleTextAttribute(h,15);
-            printf("%c",sym);break;
-    }
-}
 
 int coord::verifcoord()
     {
