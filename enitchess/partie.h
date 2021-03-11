@@ -23,7 +23,6 @@ public:
 	Joueur* noir;
 	int nbtour;
 	Partie();
-	//~partie();
 	void lancerjeu();
 	void mouvement(coord ini, coord dest, Joueur *qui);
 	friend ostream& operator<<(ostream&, Partie&);

@@ -1,9 +1,12 @@
 #ifndef ECHEQUIER_H_INCLUDED
 #define ECHEQUIER_H_INCLUDED
+
 #include "prototype.h"
 #include <stdio.h>
+
 class piece;
 class Joueur;
+
 class echequier
 {
 private:
@@ -233,9 +236,8 @@ void echequier::printchess()
 	for (int i=0;i<8;i++)
 	for (int j=0;j<8;j++)
 	if (this->Tab[i][j]!=NULL) {cout<<"coord"<<i<<"  "<<j<<"  type  ";printf("%c",this->Tab[i][j]->symbole);cout<<endl; this->Tab[i][j]->possibilites.affichechaine();cout<<endl;}
-	
-
 }
+
 int echequier::check(int ntour, coord coroi)
 {
 	coord loc;
@@ -250,6 +252,7 @@ int echequier::check(int ntour, coord coroi)
 		}
 	return 0;
 }
+
 coord echequier::chercheroi(int ntour)
 {
 	int i, j;
@@ -263,6 +266,7 @@ coord echequier::chercheroi(int ntour)
 		}
 	return co;
 }
+
 int echequier::finpartie(int ntour)
 {
 	int i, j; coord loc;
@@ -280,6 +284,5 @@ int echequier::finpartie(int ntour)
 	}
 	return (1);
 }
-
 
 #endif // ECHEQUIER_H_INCLUDED

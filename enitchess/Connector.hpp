@@ -37,5 +37,4 @@ std::string getNextMove(std::string position)
     return "error";
 }
 
-
 #endif CONNECTOR_H

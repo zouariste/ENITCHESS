@@ -1,5 +1,6 @@
 #ifndef PROTOTYPE_H_INCLUDED
 #define PROTOTYPE_H_INCLUDED
+
 #include <stdio.h>
 #include <iostream>
 #include <stdio.h>
@@ -7,6 +8,7 @@
 #include <time.h>
 #include <fstream>
 using namespace std;
+
 class coord{
 public:
     int x;
@@ -48,6 +50,7 @@ int coord::verifcoord()
     else
         return 0;
     }
+
 void coord::lirecoord()
     {
     char ch[2];
@@ -95,16 +98,17 @@ void coord::lirecoord()
                 cout<<"erreur"<<endl;
         }
     }
+
 bool coord::operator==(coord const &b)
     {
         if ((this->x==b.x)&&(this->y==b.y))return true; else return false;
     }
+
 ostream& operator<<(ostream& flux,coord pos)
     {
         flux <<pos.x<<"  "<<pos.y<<endl;
         return flux;
     }
-
 
 template<class T>
 liste<T>::~liste()
@@ -118,14 +122,13 @@ liste<T>::~liste()
     delete tete;
     tete=NULL;
 }
+
 template<class T>
 void liste<T>::affichechaine()
 {
     for (cCell<T> *tmp = tete; tmp != NULL; tmp = tmp->succ)
         cout<<"  "<<tmp->elt;
 }
-
-
 
 template<class T>
 void liste<T>::ajoutliste(const T data)
@@ -153,8 +156,6 @@ int liste<T>::cherchechaine(const T data) const
     return 0;
 }
 
-
-
 class echequier;
 
 class piece
@@ -169,6 +170,7 @@ class piece
     int verifennemi(coord dest,echequier E) ;
     virtual void deplacementnaif(coord source,echequier tab)=0;
 };
+
 class reine :public piece
 {
     public:
@@ -176,6 +178,7 @@ class reine :public piece
 
     void deplacementnaif(coord source,echequier tab);
 };
+
 class fou :public piece
 {
     public:
@@ -189,24 +192,28 @@ class tour :public piece
     tour(int j):piece(j){valeur=5;symbole=82;}
     void deplacementnaif(coord source,echequier tab);
 };
+
 class pion :public piece
 {
     public:
     pion(int j):piece(j){valeur=1;symbole=80;}
     void deplacementnaif(coord source,echequier tab);
 };
+
 class cheval :public piece
 {
     public:
     cheval(int j):piece(j){valeur=4;symbole=75;}
     void deplacementnaif(coord source,echequier tab);
 };
+
 class roi :public piece
 {
     public:
     roi(int j):piece(j){valeur=999;symbole=244;}
     void deplacementnaif(coord source,echequier tab);
 };
+
 class Joueur
 {   public:
     int couleur;
@@ -216,17 +223,5 @@ class Joueur
     virtual bool decidermouvement(echequier &E,coord &ini,coord &sol)=0;
     virtual piece* choisirpiece()=0;
 };
-
-
-
-
-
-
-
-
-
-
-
-
 
 #endif // PROTOTYPE_H_INCLUDED

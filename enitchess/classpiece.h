@@ -1,8 +1,8 @@
 #ifndef CLASSPIECE_H_INCLUDED
 #define CLASSPIECE_H_INCLUDED
+
 #include "prototype.h"
 #include "echequier.h"
-
 
 int piece::verifami (coord dest,echequier E)
 {
@@ -21,6 +21,7 @@ int piece::verifennemi(coord dest,echequier E)
     }
     else return (0);
 }
+
 void reine::deplacementnaif(coord source,echequier Tab)
 {
     int i=source.x,j=source.y;
@@ -186,6 +187,7 @@ void reine::deplacementnaif(coord source,echequier Tab)
         else break;
     }
 }
+
 void fou::deplacementnaif(coord source,echequier Tab)
 {
     int i=source.x,j=source.y;
@@ -273,6 +275,7 @@ void fou::deplacementnaif(coord source,echequier Tab)
         else break;
     }
 }
+
 void tour::deplacementnaif(coord source,echequier Tab)
 {
     int i=source.x,j=source.y;
@@ -359,6 +362,7 @@ void tour::deplacementnaif(coord source,echequier Tab)
         else break;
     }
 }
+
 void pion::deplacementnaif(coord source,echequier Tab)
 {
     int i=source.x,j=source.y;
@@ -407,6 +411,7 @@ void pion::deplacementnaif(coord source,echequier Tab)
             this->possibilites.ajoutliste(pos);
     }
 }
+
 void cheval::deplacementnaif(coord source,echequier Tab)
 {
     int i=source.x,j=source.y;
@@ -445,6 +450,7 @@ void cheval::deplacementnaif(coord source,echequier Tab)
     if ((!this->verifami(pos,Tab))&&pos.verifcoord())
                 this->possibilites.ajoutliste(pos);
 }
+
 void roi::deplacementnaif(coord source,echequier Tab)
 {
     int i=source.x,j=source.y;
@@ -484,8 +490,5 @@ void roi::deplacementnaif(coord source,echequier Tab)
                 this->possibilites.ajoutliste(pos);
 
 }
-
-
-
 
 #endif // CLASSPIECE_H_INCLUDED

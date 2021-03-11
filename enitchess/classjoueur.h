@@ -1,8 +1,8 @@
 #ifndef CLASSJOUEUR_H_INCLUDED
 #define CLASSJOUEUR_H_INCLUDED
+
 #include "prototype.h"
 #include "echequier.h"
-
 
 class Humain :public Joueur
 {
@@ -288,11 +288,5 @@ int Machine::ABrecherchemax( int profondeur ,  echequier &E ,int a,int b)
         return meilleurevaleur;
 
 }
-
-
-
-
-
-
 
 #endif // CLASSJOUEUR_H_INCLUDED
