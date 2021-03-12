@@ -1,5 +1,5 @@
 ## ENITCHESS
-* Drag and drop C++ game.
+* Drag and drop C++ Chess game.
 * Implementation of some basics artificial intelligence algorithms : Alpha–beta pruning - Minmax Algorithm.
 
 ## Screenshot
