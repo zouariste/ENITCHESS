@@ -3,8 +3,9 @@
 * Implementation of some basics artificial intelligence algorithms : Alpha–beta pruning - Minmax Algorithm.
 
 ## Screenshot
-![Alt text](/enitchess/images/EnitChess.gif "EnitChess A Gif")
-
+<div>
+<img src="./enitchess/images/EnitChess.gif?raw=true" width="448" height="524"/>
+</div>
 
 ## Prerequisite: Install SFML
 ```
