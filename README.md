@@ -5,7 +5,7 @@
 ## Screenshot
 
 <div align="left">
-  <img height="50%" width="50%" src="https://zouariste.github.io/mohamedzouari/img/portfolio/enitchess/2.png">
+  <img height="50%" width="50%" src="https://github.com/zouariste/ENITCHESS_V1/blob/master/enitchess/images/EnitChess.gif">
 </div>
 
 ## Prerequisite: Install SFML
