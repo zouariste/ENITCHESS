@@ -4,9 +4,10 @@
 #include <SFML/Graphics.hpp>
 #include <time.h>
 #include <iostream>
-#include "prototype.h"
-#include "echequier.h"
-#include "classjoueur.h"
+#include "utils.h"
+#include "chessboard.h"
+#include "player.h"
+#include "piece.h"
 #include <unistd.h>
 
 using namespace sf;
@@ -15,20 +16,20 @@ Vector2f offset(28, 28);
 int load = 0, load2 = 0;
 int difsim = 0;
 int board[8][8];
-class Partie
-{
-public:
-	echequier grille;
-	Joueur* blanc;
-	Joueur* noir;
-	int nbtour;
-	Partie();
-	void lancerjeu();
-	void mouvement(coord ini, coord dest, Joueur *qui);
-	friend ostream& operator<<(ostream&, Partie&);
-	friend istream& operator>>(istream&, Partie&);
-	void reprendrePartie();
-	void sauvegarderPartie();
+
+class Game{
+	public:
+		ChessBoard grille;
+		Player* blanc;
+		Player* noir;
+		int nbtour;
+		Game();
+		void lancerjeu();
+		void mouvement(Coord ini, Coord dest, Player *qui);
+		friend ostream& operator<<(ostream&, Game&);
+		friend istream& operator>>(istream&, Game&);
+		void reprendreGame();
+		void sauvegarderGame();
 }; 
 
 std::string position = "";
@@ -49,20 +50,20 @@ Vector2f toCoord(char a, char b)
 	return Vector2f(x * 56, y * 56);
 }
 
-void affiche2(echequier &E, int board[8][8])
+void affiche2(ChessBoard &E, int board[8][8])
 {
 	int signe=0, p;
 	for (int i = 0; i < 8; i++)
 		for (int j = 0; j < 8; j++)
 		{
-			coord loc; loc.x = i; loc.y = j;
-			if (E.getpiece(loc) != NULL)
+			Coord loc; loc.x = i; loc.y = j;
+			if (E.getPiece(loc) != NULL)
 			{
-				if (E.getpiece(loc)->joueur == 2)
+				if (E.getPiece(loc)->joueur == 2)
 					signe = -1;
 				else
 					signe = 1;
-				switch (E.getpiece(loc)->valeur)
+				switch (E.getPiece(loc)->valeur)
 				{
 				case 999:
 					p = 5; break;
@@ -228,7 +229,7 @@ void aide()
 
 }
 
-void menudeb(echequier &E, int &nbtour, int &mode,Partie *p)
+void menudeb(ChessBoard &E, int &nbtour, int &mode,Game *p)
 {
 	
 	RenderWindow window(VideoMode(504, 604), "ENITCHESS");
@@ -275,7 +276,7 @@ void menudeb(echequier &E, int &nbtour, int &mode,Partie *p)
 					if (e.key.code == Mouse::Left)
 					{
 						window.close();
-						p->reprendrePartie();
+						p->reprendreGame();
 						load = 1;
 						
 					}
@@ -300,132 +301,7 @@ void menudeb(echequier &E, int &nbtour, int &mode,Partie *p)
 
 }
 
-piece* Humain::choisirpiece()
-{
-	RenderWindow window(VideoMode(504, 380), "Choose-Piece-Menu");
-	Texture t1, t2; 
-	Sprite g[32];
-	echequier q; /*q.initechequier();
-	affiche2(q, board);*/ int size = 56; int s = 0;
-	t1.loadFromFile("images/Pieces.png");
-	t2.loadFromFile("images/Choose-Piece-Menu.png");
-	for (int i = 0; i < 32; i++) g[i].setTexture(t1);
-	Sprite sBoard(t2);
-	int k = 0;
-	for (int i = 0; i<8; i++)
-		for (int j = 0; j<8; j++)
-		{
-			int n = board[i][j];
-			if (!n) continue;
-			int x = abs(n) - 1;
-			int y = n>0 ? 1 : 0;
-			g[k].setTextureRect(IntRect(56 * x, 56 * y, 56, 56));
-			g[k].setPosition(-100,-100);
-			k++;
-		}
-	if (this->couleur % 2 == 0)
-	{
-		g[0].setPosition(56 * 1, 56 * 4);
-		g[1].setPosition(149.3, 56 * 4);
-		g[2].setPosition(242.6, 56 * 4);
-		g[3].setPosition(56 * 6, 56 * 4);
-	}
-	else
-	{
-		g[24].setPosition(56 * 1, 56 * 4);
-		g[25].setPosition(149.3, 56 * 4);
-		g[26].setPosition(242.6, 56 * 4);
-		g[27].setPosition(56 * 6, 56 * 4);
-	}
-
-
-	window.draw(sBoard);
-	for (int i = 0; i < 32; i++) g[i].move(offset);
-	for (int i = 0; i < 32; i++) {
-		window.draw(g[i]);
-	}
-	for (int i = 0; i < 32; i++) g[i].move(-offset);
-	window.display();
-	while (window.isOpen())
-	{
-		pos = Mouse::getPosition(window) - Vector2i(offset);
-		Event e;
-		while (window.pollEvent(e))
-		{
-			if (g[0].getGlobalBounds().contains(pos.x, pos.y))
-				if (e.type == Event::MouseButtonPressed)
-					if (e.key.code == Mouse::Left)
-					{
-						window.close();
-						piece *p = new tour(2); 
-						return p;
-					}
-			if (g[1].getGlobalBounds().contains(pos.x, pos.y))
-				if (e.type == Event::MouseButtonPressed)
-					if (e.key.code == Mouse::Left)
-					{
-						window.close();
-						piece *p = new cheval(2);
-						return p;
-					}
-			if (g[2].getGlobalBounds().contains(pos.x, pos.y))
-				if (e.type == Event::MouseButtonPressed)
-					if (e.key.code == Mouse::Left)
-					{
-						window.close();
-						piece *p = new fou(2);
-						return p;
-					}
-			if (g[3].getGlobalBounds().contains(pos.x, pos.y))
-				if (e.type == Event::MouseButtonPressed)
-					if (e.key.code == Mouse::Left)
-					{
-						window.close();
-						piece *p = new reine(2);
-						return p;
-					}
-			if (g[24].getGlobalBounds().contains(pos.x, pos.y))
-				if (e.type == Event::MouseButtonPressed)
-					if (e.key.code == Mouse::Left)
-					{
-						window.close();
-						piece *p = new tour(1);
-						return p;
-					}
-			if (g[25].getGlobalBounds().contains(pos.x, pos.y))
-				if (e.type == Event::MouseButtonPressed)
-					if (e.key.code == Mouse::Left)
-					{
-						window.close();
-						piece *p = new cheval(1);
-						return p;
-					}
-			if (g[26].getGlobalBounds().contains(pos.x, pos.y))
-				if (e.type == Event::MouseButtonPressed)
-					if (e.key.code == Mouse::Left)
-					{
-						window.close();
-						piece *p = new fou(1);
-						return p;
-					}
-			if (g[27].getGlobalBounds().contains(pos.x, pos.y))
-				if (e.type == Event::MouseButtonPressed)
-					if (e.key.code == Mouse::Left)
-					{
-						window.close();
-						piece *p = new reine(1);
-						return p;
-					}
-
-
-		}
-
-	}
-	//E.printchess(); system("pause");
-	
-}
-
-void menufin(echequier &E,int nbtour, int mode)
+void menufin(ChessBoard &E,int nbtour, int mode)
 {
 
 	RenderWindow window(VideoMode(504, 604), "ENITCHESS");
@@ -478,24 +354,10 @@ void menufin(echequier &E,int nbtour, int mode)
 					if (e.key.code == Mouse::Left)
 					{
 						window.close(); usleep(200);
-						Partie x; x.lancerjeu();
+						Game x; x.lancerjeu();
 					}
 		}
 	}
-}
-
-Partie::Partie() //a remplacer pour save load et a ajouter deplacement legal NB elle utilise nbtour+1
-{
-	int nb,mode;
-	menudeb(this->grille, nb, mode, this);
-	this->nbtour=nb;
-    this->blanc = new Humain;
-	if (mode == 1)
-		this->noir = new Humain;
-	else
-		this->noir = new Machine(mode);
-    noir->couleur=2;
-	blanc->couleur = 1; 
 }
 
 void essaye(Sprite &f,int x,int y)
@@ -503,12 +365,12 @@ void essaye(Sprite &f,int x,int y)
 	f.setPosition(56 * x, 56 * y);
 }
 
-void Partie::lancerjeu()
+void Game::lancerjeu()
 {
 	Sprite f[35]; // Pieces
 	RenderWindow window(VideoMode(504, 560), "ENITCHESS");
 	Texture t1, t2, t3, t4, t5, t6, t7, t8, t9, t10; 
-	if (load == 0) this->grille.initechequier(); 
+	if (load == 0) this->grille.initChessBoard(); 
 	this->grille.deplacementnaif(1);
 	this->grille.deplacementnaif(2);
 	affiche2(this->grille, board); int size = 56, s = 0;
@@ -525,7 +387,7 @@ void Partie::lancerjeu()
 
 
 	int indice;
-	coord ini, dest, loc;
+	Coord ini, dest, loc;
 	loc.x = 0; loc.y = 0; dest.x = 0; dest.y = 0; ini.x = 0; ini.y = 0;
 	bool test = false;
 	for (int i = 0; i < 32; i++) f[i].setTexture(t1);
@@ -586,8 +448,8 @@ void Partie::lancerjeu()
 			if (f[33].getGlobalBounds().contains(pos.x, pos.y))
 				if ((e.type == Event::MouseButtonPressed) && (e.key.code == Mouse::Left))
 				{
-					this->sauvegarderPartie(); window.close(); system("cls"); this->grille.initechequier();
-					this->nbtour = 1; Partie x; x.lancerjeu();
+					this->sauvegarderGame(); window.close(); system("cls"); this->grille.initChessBoard();
+					this->nbtour = 1; Game x; x.lancerjeu();
 				}
 
 			if (e.type == Event::MouseButtonPressed)
@@ -623,13 +485,13 @@ void Partie::lancerjeu()
 					//std::cout << dest.x << ' ' << dest.y << endl;
 					if (nbtour % 2)
 					{
-						bool pion = false;
+						bool Pawn = false;
 						test = this->blanc->decidermouvement(this->grille, ini, dest);
 						if (test)
 						{
-							int x = this->grille.getpiece(ini)->valeur;
+							int x = this->grille.getPiece(ini)->valeur;
 							this->grille.mouvement(ini, dest, blanc);
-							if (x != this->grille.getpiece(dest)->valeur)
+							if (x != this->grille.getPiece(dest)->valeur)
 							{
 								window.close(); load = 1;
 								this->lancerjeu(); break; break;
@@ -646,9 +508,9 @@ void Partie::lancerjeu()
 						test = this->noir->decidermouvement(this->grille, ini, dest);
 						if (test)
 						{
-							int x = this->grille.getpiece(ini)->valeur;
+							int x = this->grille.getPiece(ini)->valeur;
 							this->grille.mouvement(ini, dest, noir);
-							if (x != this->grille.getpiece(dest)->valeur)
+							if (x != this->grille.getPiece(dest)->valeur)
 							{
 								window.close(); load = 1;
 								this->lancerjeu(); break; break;
@@ -712,9 +574,9 @@ void Partie::lancerjeu()
 
 				if (nbtour % 2)
 				{
-					int x = this->grille.getpiece(ini)->valeur;
+					int x = this->grille.getPiece(ini)->valeur;
 					this->grille.mouvement(ini, dest, blanc);
-					if (x != this->grille.getpiece(dest)->valeur)
+					if (x != this->grille.getPiece(dest)->valeur)
 					{
 						window.close(); load = 1;
 						this->lancerjeu(); break; break;
@@ -722,9 +584,9 @@ void Partie::lancerjeu()
 				}
 				else
 				{
-					int x = this->grille.getpiece(ini)->valeur;
+					int x = this->grille.getPiece(ini)->valeur;
 					this->grille.mouvement(ini, dest, noir);
-					if (x != this->grille.getpiece(dest)->valeur)
+					if (x != this->grille.getPiece(dest)->valeur)
 					{
 						window.close(); load = 1;
 						this->lancerjeu(); break; break;
@@ -756,9 +618,9 @@ void Partie::lancerjeu()
 	}
 }
 
-void Partie::reprendrePartie()
+void Game::reprendreGame()
 {
-	int ligne, colonne, valeur, joueur; coord x; int difficulte;
+	int ligne, colonne, valeur, joueur; Coord x; int difficulte;
 	std::string chemin;
 	cout << "Tapez le chemin:" << endl;
 	cin >> chemin;
@@ -769,31 +631,31 @@ void Partie::reprendrePartie()
 		int n;
 		fichier >>  this->nbtour;
 		fichier >> difficulte;
-		if (difficulte == 0) this->blanc = new Humain; else this->blanc = new Machine(difficulte);
+		if (difficulte == 0) this->blanc = new Human; else this->blanc = new Machine(difficulte);
 		fichier >> difficulte;
-		if (difficulte == 0) this->noir = new Humain; else this->noir = new Machine(difficulte);
+		if (difficulte == 0) this->noir = new Human; else this->noir = new Machine(difficulte);
 		difsim = difficulte;
 		this->noir->couleur = 2; this->blanc->couleur = 1;
 		while (fichier >> ligne >> colonne >> valeur >> joueur)
 		{
 			x.x = ligne; x.y = colonne;
-			piece *input=NULL;
+			Piece *input=NULL;
 			switch (valeur)
 			{
 			case 999:
-				input = new roi(joueur); break;
+				input = new King(joueur); break;
 			case 1:
-				input = new pion(joueur); break;
+				input = new Pawn(joueur); break;
 			case 4:
-				input = new cheval(joueur); break;
+				input = new Knight(joueur); break;
 			case 3:
-				input = new fou(joueur); break;
+				input = new Bishop(joueur); break;
 			case 5:
-				input = new tour(joueur); break;
+				input = new Rook(joueur); break;
 			case 10:
-				input = new reine(joueur); break;
+				input = new Queen(joueur); break;
 			}
-			this->grille.setpiece(input, x);
+			this->grille.setPiece(input, x);
 		}
 		fichier.close();
 		this->grille.deplacementnaif(this->nbtour + 1);
@@ -804,13 +666,13 @@ void Partie::reprendrePartie()
 		cout << "erreur:fichier introuvable" << endl;
 }
 
-void Partie::sauvegarderPartie()
+void Game::sauvegarderGame()
 {
 	std::string chemin;
 	cout << "Tapez le chemin:" << endl;
 	cin >> chemin;
 	ofstream fichier(chemin.c_str(), ios::trunc);
-	coord x;
+	Coord x;
 	fichier << this->nbtour << endl;
 	fichier << this->blanc->demandersauvegarde() << endl;
 	fichier << this->noir->demandersauvegarde() << endl;
@@ -819,10 +681,24 @@ void Partie::sauvegarderPartie()
 		for (int colonne = 0; colonne < 8; colonne++)
 		{
 			x.x = ligne; x.y = colonne;
-			if (this->grille.verifpiece(x))
-				fichier << ligne << " " << colonne << " " << this->grille.getpiece(x)->valeur << " " << this->grille.getpiece(x)->joueur << endl;
+			if (this->grille.verifPiece(x))
+				fichier << ligne << " " << colonne << " " << this->grille.getPiece(x)->valeur << " " << this->grille.getPiece(x)->joueur << endl;
 		}
 	}
+}
+
+Game::Game() //a remplacer pour save load et a ajouter deplacement legal NB elle utilise nbtour+1
+{
+	int nb,mode;
+	menudeb(this->grille, nb, mode, this);
+	this->nbtour=nb;
+    this->blanc = new Human;
+	if (mode == 1)
+		this->noir = new Human;
+	else
+		this->noir = new Machine(mode);
+    noir->couleur=2;
+	blanc->couleur = 1; 
 }
 
 #endif // PARTIE_H_INCLUDED

@@ -1,34 +1,36 @@
 #ifndef CLASSPIECE_H_INCLUDED
 #define CLASSPIECE_H_INCLUDED
 
-#include "prototype.h"
-#include "echequier.h"
+#include "utils.h"
+#include "chessboard.h"
 
-int piece::verifami (coord dest,echequier E)
+
+
+int Piece::verifami (Coord dest,ChessBoard E)
 {
-    if (E.verifpiece(dest))
+    if (E.verifPiece(dest))
     {
-        if (this->joueur == (E.getpiece(dest))->joueur) return (1); else return (0);
+        if (this->joueur == (E.getPiece(dest))->joueur) return (1); else return (0);
     }
     else return (0);
 }
 
-int piece::verifennemi(coord dest,echequier E)
+int Piece::verifennemi(Coord dest,ChessBoard E)
 {
-    if (E.verifpiece(dest))
+    if (E.verifPiece(dest))
     {
-        if (this->joueur != E.getpiece(dest)->joueur) return (1); else return (0);
+        if (this->joueur != E.getPiece(dest)->joueur) return (1); else return (0);
     }
     else return (0);
 }
 
-void reine::deplacementnaif(coord source,echequier Tab)
+void Queen::deplacementnaif(Coord source,ChessBoard Tab)
 {
     int i=source.x,j=source.y;
     int x,y;
-    coord pos;
+    Coord pos;
     x=1,y=1;
-    this->possibilites.~liste();
+    this->possibilites.~LinkedList();
     while (1)
     {
         pos.x=i+x;pos.y=j+y;
@@ -39,10 +41,10 @@ void reine::deplacementnaif(coord source,echequier Tab)
 
             if(this->verifennemi(pos,Tab))
             {
-                this->possibilites.ajoutliste(pos);
+                this->possibilites.addlist(pos);
                 break;
             }
-            this->possibilites.ajoutliste(pos);
+            this->possibilites.addlist(pos);
             x+=1;y+=1;
         }
         else break;
@@ -58,10 +60,10 @@ void reine::deplacementnaif(coord source,echequier Tab)
 
             if(this->verifennemi(pos,Tab))
             {
-                this->possibilites.ajoutliste(pos);
+                this->possibilites.addlist(pos);
                 break;
             }
-            this->possibilites.ajoutliste(pos);
+            this->possibilites.addlist(pos);
             x+=1;y+=1;
         }
         else break;
@@ -78,10 +80,10 @@ void reine::deplacementnaif(coord source,echequier Tab)
 
             if(this->verifennemi(pos,Tab))
             {
-                this->possibilites.ajoutliste(pos);
+                this->possibilites.addlist(pos);
                 break;
             }
-            this->possibilites.ajoutliste(pos);
+            this->possibilites.addlist(pos);
             x+=1;y+=1;
         }
         else break;
@@ -99,10 +101,10 @@ void reine::deplacementnaif(coord source,echequier Tab)
 
             if(this->verifennemi(pos,Tab))
             {
-                this->possibilites.ajoutliste(pos);
+                this->possibilites.addlist(pos);
                 break;
             }
-            this->possibilites.ajoutliste(pos);
+            this->possibilites.addlist(pos);
             x+=1;y+=1;
         }
         else break;
@@ -119,10 +121,10 @@ void reine::deplacementnaif(coord source,echequier Tab)
 
             if(this->verifennemi(pos,Tab))
             {
-                this->possibilites.ajoutliste(pos);
+                this->possibilites.addlist(pos);
                 break;
             }
-            this->possibilites.ajoutliste(pos);
+            this->possibilites.addlist(pos);
             x+=1;y+=1;
         }
         else break;
@@ -139,10 +141,10 @@ void reine::deplacementnaif(coord source,echequier Tab)
 
             if(this->verifennemi(pos,Tab))
             {
-                this->possibilites.ajoutliste(pos);
+                this->possibilites.addlist(pos);
                 break;
             }
-            this->possibilites.ajoutliste(pos);
+            this->possibilites.addlist(pos);
             x+=1;y+=1;
         }
         else break;
@@ -159,10 +161,10 @@ void reine::deplacementnaif(coord source,echequier Tab)
 
             if(this->verifennemi(pos,Tab))
             {
-                this->possibilites.ajoutliste(pos);
+                this->possibilites.addlist(pos);
                 break;
             }
-            this->possibilites.ajoutliste(pos);
+            this->possibilites.addlist(pos);
             x+=1;y+=1;
         }
         else break;
@@ -178,23 +180,23 @@ void reine::deplacementnaif(coord source,echequier Tab)
 
             if(this->verifennemi(pos,Tab))
             {
-                this->possibilites.ajoutliste(pos);
+                this->possibilites.addlist(pos);
                 break;
             }
-            this->possibilites.ajoutliste(pos);
+            this->possibilites.addlist(pos);
             x+=1;y+=1;
         }
         else break;
     }
 }
 
-void fou::deplacementnaif(coord source,echequier Tab)
+void Bishop::deplacementnaif(Coord source,ChessBoard Tab)
 {
     int i=source.x,j=source.y;
     int x,y;
-    coord pos;
+    Coord pos;
     x=1,y=1;
-    this->possibilites.~liste();
+    this->possibilites.~LinkedList();
     while (1)
     {
         pos.x=i+x;pos.y=j+y;
@@ -205,10 +207,10 @@ void fou::deplacementnaif(coord source,echequier Tab)
 
             if(this->verifennemi(pos,Tab))
             {
-                this->possibilites.ajoutliste(pos);
+                this->possibilites.addlist(pos);
                 break;
             }
-            this->possibilites.ajoutliste(pos);
+            this->possibilites.addlist(pos);
             x+=1;y+=1;
         }
         else break;
@@ -224,10 +226,10 @@ void fou::deplacementnaif(coord source,echequier Tab)
 
             if(this->verifennemi(pos,Tab))
             {
-                this->possibilites.ajoutliste(pos);
+                this->possibilites.addlist(pos);
                 break;
             }
-            this->possibilites.ajoutliste(pos);
+            this->possibilites.addlist(pos);
             x+=1;y+=1;
         }
         else break;
@@ -244,10 +246,10 @@ void fou::deplacementnaif(coord source,echequier Tab)
 
             if(this->verifennemi(pos,Tab))
             {
-                this->possibilites.ajoutliste(pos);
+                this->possibilites.addlist(pos);
                 break;
             }
-            this->possibilites.ajoutliste(pos);
+            this->possibilites.addlist(pos);
             x+=1;y+=1;
         }
         else break;
@@ -266,23 +268,23 @@ void fou::deplacementnaif(coord source,echequier Tab)
 
             if(this->verifennemi(pos,Tab))
             {
-                this->possibilites.ajoutliste(pos);
+                this->possibilites.addlist(pos);
                 break;
             }
-            this->possibilites.ajoutliste(pos);
+            this->possibilites.addlist(pos);
             x+=1;y+=1;
         }
         else break;
     }
 }
 
-void tour::deplacementnaif(coord source,echequier Tab)
+void Rook::deplacementnaif(Coord source,ChessBoard Tab)
 {
     int i=source.x,j=source.y;
     int x,y;
-    coord pos;
+    Coord pos;
     x=1,y=1;
-    this->possibilites.~liste();
+    this->possibilites.~LinkedList();
     while (1)
     {
 
@@ -294,10 +296,10 @@ void tour::deplacementnaif(coord source,echequier Tab)
 
             if(this->verifennemi(pos,Tab))
             {
-                this->possibilites.ajoutliste(pos);
+                this->possibilites.addlist(pos);
                 break;
             }
-            this->possibilites.ajoutliste(pos);
+            this->possibilites.addlist(pos);
             x+=1;y+=1;
         }
         else break;
@@ -314,10 +316,10 @@ void tour::deplacementnaif(coord source,echequier Tab)
 
             if(this->verifennemi(pos,Tab))
             {
-                this->possibilites.ajoutliste(pos);
+                this->possibilites.addlist(pos);
                 break;
             }
-            this->possibilites.ajoutliste(pos);
+            this->possibilites.addlist(pos);
             x+=1;y+=1;
         }
         else break;
@@ -334,10 +336,10 @@ void tour::deplacementnaif(coord source,echequier Tab)
 
             if(this->verifennemi(pos,Tab))
             {
-                this->possibilites.ajoutliste(pos);
+                this->possibilites.addlist(pos);
                 break;
             }
-            this->possibilites.ajoutliste(pos);
+            this->possibilites.addlist(pos);
             x+=1;y+=1;
         }
         else break;
@@ -353,41 +355,41 @@ void tour::deplacementnaif(coord source,echequier Tab)
 
             if(this->verifennemi(pos,Tab))
             {
-                this->possibilites.ajoutliste(pos);
+                this->possibilites.addlist(pos);
                 break;
             }
-            this->possibilites.ajoutliste(pos);
+            this->possibilites.addlist(pos);
             x+=1;y+=1;
         }
         else break;
     }
 }
 
-void pion::deplacementnaif(coord source,echequier Tab)
+void Pawn::deplacementnaif(Coord source,ChessBoard Tab)
 {
     int i=source.x,j=source.y;
-    coord pos;
-    this->possibilites.~liste();
+    Coord pos;
+    this->possibilites.~LinkedList();
     if (this->joueur==1)
     {
         pos.x=i-1;
         pos.y=j;
         if ((!this->verifami(pos,Tab))&&(!this->verifennemi(pos,Tab))&&pos.verifcoord())
             {
-                this->possibilites.ajoutliste(pos);
+                this->possibilites.addlist(pos);
                 pos.x=i-2;
                 pos.y=j;
                 if ((i==6)&&(!this->verifami(pos,Tab))&&(!this->verifennemi(pos,Tab)))
-                    this->possibilites.ajoutliste(pos);
+                    this->possibilites.addlist(pos);
             }
         pos.x=i-1;
         pos.y=j+1;
         if ((this->verifennemi(pos,Tab))&&pos.verifcoord())
-            this->possibilites.ajoutliste(pos);
+            this->possibilites.addlist(pos);
         pos.x=i-1;
         pos.y=j-1;
         if ((this->verifennemi(pos,Tab))&&pos.verifcoord())
-            this->possibilites.ajoutliste(pos);
+            this->possibilites.addlist(pos);
     }
     if (this->joueur==2)
     {
@@ -395,99 +397,99 @@ void pion::deplacementnaif(coord source,echequier Tab)
         pos.y=j;
         if ((!this->verifami(pos,Tab))&&(!this->verifennemi(pos,Tab))&&pos.verifcoord())
             {
-                this->possibilites.ajoutliste(pos);
+                this->possibilites.addlist(pos);
                 pos.x=i+2;
                 pos.y=j;
                 if ((i==1)&&(!this->verifami(pos,Tab))&&(!this->verifennemi(pos,Tab)))
-                    this->possibilites.ajoutliste(pos);
+                    this->possibilites.addlist(pos);
             }
         pos.x=i+1;
         pos.y=j+1;
         if ((this->verifennemi(pos,Tab))&&pos.verifcoord())
-            this->possibilites.ajoutliste(pos);
+            this->possibilites.addlist(pos);
         pos.x=i+1;
         pos.y=j-1;
         if ((this->verifennemi(pos,Tab))&&pos.verifcoord())
-            this->possibilites.ajoutliste(pos);
+            this->possibilites.addlist(pos);
     }
 }
 
-void cheval::deplacementnaif(coord source,echequier Tab)
+void Knight::deplacementnaif(Coord source,ChessBoard Tab)
 {
     int i=source.x,j=source.y;
-    this->possibilites.~liste();
-    coord pos;
+    this->possibilites.~LinkedList();
+    Coord pos;
     pos.x=i+1;
     pos.y=j+2;
     if ((!this->verifami(pos,Tab))&&pos.verifcoord())
-                this->possibilites.ajoutliste(pos);
+                this->possibilites.addlist(pos);
     pos.x=i-1;
     pos.y=j+2;
     if ((!this->verifami(pos,Tab))&&pos.verifcoord())
-                this->possibilites.ajoutliste(pos);
+                this->possibilites.addlist(pos);
     pos.x=i+1;
     pos.y=j-2;
     if ((!this->verifami(pos,Tab))&&pos.verifcoord())
-                this->possibilites.ajoutliste(pos);
+                this->possibilites.addlist(pos);
     pos.x=i-1;
     pos.y=j-2;
     if ((!this->verifami(pos,Tab))&&pos.verifcoord())
-                this->possibilites.ajoutliste(pos);
+                this->possibilites.addlist(pos);
     pos.x=i+2;
     pos.y=j+1;
     if ((!this->verifami(pos,Tab))&&pos.verifcoord())
-                this->possibilites.ajoutliste(pos);
+                this->possibilites.addlist(pos);
     pos.x=i+2;
     pos.y=j-1;
     if ((!this->verifami(pos,Tab))&&pos.verifcoord())
-                this->possibilites.ajoutliste(pos);
+                this->possibilites.addlist(pos);
     pos.x=i-2;
     pos.y=j+1;
     if ((!this->verifami(pos,Tab))&&pos.verifcoord())
-                this->possibilites.ajoutliste(pos);
+                this->possibilites.addlist(pos);
     pos.x=i-2;
     pos.y=j-1;
     if ((!this->verifami(pos,Tab))&&pos.verifcoord())
-                this->possibilites.ajoutliste(pos);
+                this->possibilites.addlist(pos);
 }
 
-void roi::deplacementnaif(coord source,echequier Tab)
+void King::deplacementnaif(Coord source,ChessBoard Tab)
 {
     int i=source.x,j=source.y;
-    this->possibilites.~liste();
-    coord pos;
+    this->possibilites.~LinkedList();
+    Coord pos;
     pos.x=i+1;
     pos.y=j+1;
     if ((!this->verifami(pos,Tab))&&pos.verifcoord())
-                this->possibilites.ajoutliste(pos);
+                this->possibilites.addlist(pos);
     pos.x=i;
     pos.y=j+1;
     if ((!this->verifami(pos,Tab))&&pos.verifcoord())
-                this->possibilites.ajoutliste(pos);
+                this->possibilites.addlist(pos);
     pos.x=i-1;
     pos.y=j+1;
     if ((!this->verifami(pos,Tab))&&pos.verifcoord())
-                this->possibilites.ajoutliste(pos);
+                this->possibilites.addlist(pos);
     pos.x=i-1;
     pos.y=j;
     if ((!this->verifami(pos,Tab))&&pos.verifcoord())
-                this->possibilites.ajoutliste(pos);
+                this->possibilites.addlist(pos);
     pos.x=i+1;
     pos.y=j;
     if ((!this->verifami(pos,Tab))&&pos.verifcoord())
-                this->possibilites.ajoutliste(pos);
+                this->possibilites.addlist(pos);
     pos.x=i-1;
     pos.y=j-1;
     if ((!this->verifami(pos,Tab))&&pos.verifcoord())
-                this->possibilites.ajoutliste(pos);
+                this->possibilites.addlist(pos);
     pos.x=i;
     pos.y=j-1;
     if ((!this->verifami(pos,Tab))&&pos.verifcoord())
-                this->possibilites.ajoutliste(pos);
+                this->possibilites.addlist(pos);
     pos.x=i+1;
     pos.y=j-1;
     if ((!this->verifami(pos,Tab))&&pos.verifcoord())
-                this->possibilites.ajoutliste(pos);
+                this->possibilites.addlist(pos);
 
 }
 
