@@ -4,7 +4,7 @@
 
 ## Screenshot
 <div>
-<img src="./enitchess/images/EnitChess.gif?raw=true" width="448" height="524"/>
+<img src="./img/EnitChess.gif?raw=true" width="448" height="524"/>
 </div>
 
 ## Prerequisite: Install SFML
