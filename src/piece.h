@@ -1,10 +1,10 @@
 #ifndef CLASSPIECE_H_INCLUDED
 #define CLASSPIECE_H_INCLUDED
 
-#include "prototype.h"
-#include "echequier.h"
+#include "utils.h"
+#include "chessboard.h"
 
-int piece::verifami (coord dest,echequier E)
+int piece::verifami (coord dest,chessboard E)
 {
     if (E.verifpiece(dest))
     {
@@ -13,7 +13,7 @@ int piece::verifami (coord dest,echequier E)
     else return (0);
 }
 
-int piece::verifennemi(coord dest,echequier E)
+int piece::verifennemi(coord dest,chessboard E)
 {
     if (E.verifpiece(dest))
     {
@@ -22,7 +22,7 @@ int piece::verifennemi(coord dest,echequier E)
     else return (0);
 }
 
-void reine::deplacementnaif(coord source,echequier Tab)
+void reine::deplacementnaif(coord source,chessboard Tab)
 {
     int i=source.x,j=source.y;
     int x,y;
@@ -188,7 +188,7 @@ void reine::deplacementnaif(coord source,echequier Tab)
     }
 }
 
-void fou::deplacementnaif(coord source,echequier Tab)
+void fou::deplacementnaif(coord source,chessboard Tab)
 {
     int i=source.x,j=source.y;
     int x,y;
@@ -276,7 +276,7 @@ void fou::deplacementnaif(coord source,echequier Tab)
     }
 }
 
-void tour::deplacementnaif(coord source,echequier Tab)
+void tour::deplacementnaif(coord source,chessboard Tab)
 {
     int i=source.x,j=source.y;
     int x,y;
@@ -363,7 +363,7 @@ void tour::deplacementnaif(coord source,echequier Tab)
     }
 }
 
-void pion::deplacementnaif(coord source,echequier Tab)
+void pion::deplacementnaif(coord source,chessboard Tab)
 {
     int i=source.x,j=source.y;
     coord pos;
@@ -412,7 +412,7 @@ void pion::deplacementnaif(coord source,echequier Tab)
     }
 }
 
-void cheval::deplacementnaif(coord source,echequier Tab)
+void cheval::deplacementnaif(coord source,chessboard Tab)
 {
     int i=source.x,j=source.y;
     this->possibilites.~liste();
@@ -451,7 +451,7 @@ void cheval::deplacementnaif(coord source,echequier Tab)
                 this->possibilites.ajoutliste(pos);
 }
 
-void roi::deplacementnaif(coord source,echequier Tab)
+void roi::deplacementnaif(coord source,chessboard Tab)
 {
     int i=source.x,j=source.y;
     this->possibilites.~liste();

@@ -4,9 +4,9 @@
 #include <SFML/Graphics.hpp>
 #include <time.h>
 #include <iostream>
-#include "prototype.h"
-#include "echequier.h"
-#include "classjoueur.h"
+#include "utils.h"
+#include "chessboard.h"
+#include "player.h"
 #include <unistd.h>
 
 using namespace sf;
@@ -18,7 +18,7 @@ int board[8][8];
 class Partie
 {
 public:
-	echequier grille;
+	chessboard grille;
 	Joueur* blanc;
 	Joueur* noir;
 	int nbtour;
@@ -49,7 +49,7 @@ Vector2f toCoord(char a, char b)
 	return Vector2f(x * 56, y * 56);
 }
 
-void affiche2(echequier &E, int board[8][8])
+void affiche2(chessboard &E, int board[8][8])
 {
 	int signe=0, p;
 	for (int i = 0; i < 8; i++)
@@ -123,12 +123,12 @@ void menuchoix(int &mode)
 {
 	RenderWindow window(VideoMode(504, 604), "ENITCHESS");
 	Texture t1, t2, t3, t4, t5, t6; Sprite f[5];
-	t1.loadFromFile("images/Main-Menu.png");
-	t2.loadFromFile("images/1VS1-Button.png");
-	t3.loadFromFile("images/1VScpu1-Button.png");
-	t4.loadFromFile("images/1VScpu2-Button.png");
-	t5.loadFromFile("images/1VScpu3-Button.png");
-	t6.loadFromFile("images/1VScpu4-Button.png");
+	t1.loadFromFile("img/Main-Menu.png");
+	t2.loadFromFile("img/1VS1-Button.png");
+	t3.loadFromFile("img/1VScpu1-Button.png");
+	t4.loadFromFile("img/1VScpu2-Button.png");
+	t5.loadFromFile("img/1VScpu3-Button.png");
+	t6.loadFromFile("img/1VScpu4-Button.png");
 
 
 	f[0].setTexture(t2);
@@ -201,7 +201,7 @@ void aide()
 {
 	RenderWindow window(VideoMode(504, 604), "ENITCHESS");
 	Texture t1;
-	t1.loadFromFile("images/Help-Menu.png");
+	t1.loadFromFile("img/Help-Menu.png");
 
 
 
@@ -228,16 +228,16 @@ void aide()
 
 }
 
-void menudeb(echequier &E, int &nbtour, int &mode,Partie *p)
+void menudeb(chessboard &E, int &nbtour, int &mode,Partie *p)
 {
 	
 	RenderWindow window(VideoMode(504, 604), "ENITCHESS");
 	Texture t1, t2, t3, t4, t5; Sprite f[4];
-	t1.loadFromFile("images/Main-Menu.png");
-	t2.loadFromFile("images/Start-Button.png");
-	t3.loadFromFile("images/Load-Button.png");
-	t4.loadFromFile("images/Help-Button.png");
-	t5.loadFromFile("images/Exit-Button.png");
+	t1.loadFromFile("img/Main-Menu.png");
+	t2.loadFromFile("img/Start-Button.png");
+	t3.loadFromFile("img/Load-Button.png");
+	t4.loadFromFile("img/Help-Button.png");
+	t5.loadFromFile("img/Exit-Button.png");
 
 	f[0].setTexture(t2);
 	f[1].setTexture(t3);
@@ -305,10 +305,10 @@ piece* Humain::choisirpiece()
 	RenderWindow window(VideoMode(504, 380), "Choose-Piece-Menu");
 	Texture t1, t2; 
 	Sprite g[32];
-	echequier q; /*q.initechequier();
+	chessboard q; /*q.initechequier();
 	affiche2(q, board);*/ int size = 56; int s = 0;
-	t1.loadFromFile("images/Pieces.png");
-	t2.loadFromFile("images/Choose-Piece-Menu.png");
+	t1.loadFromFile("img/Pieces.png");
+	t2.loadFromFile("img/Choose-Piece-Menu.png");
 	for (int i = 0; i < 32; i++) g[i].setTexture(t1);
 	Sprite sBoard(t2);
 	int k = 0;
@@ -425,19 +425,19 @@ piece* Humain::choisirpiece()
 	
 }
 
-void menufin(echequier &E,int nbtour, int mode)
+void menufin(chessboard &E,int nbtour, int mode)
 {
 
 	RenderWindow window(VideoMode(504, 604), "ENITCHESS");
 	Texture t1, t2, t3, t4, t5, t6, t7, t8; Sprite f[2];
-	t1.loadFromFile("images/End-Menu.png");
-	t2.loadFromFile("images/Player-1.png");
-	t3.loadFromFile("images/Player-2.png");
-	t4.loadFromFile("images/CPU1.png");
-	t5.loadFromFile("images/CPU2.png");
-	t6.loadFromFile("images/CPU3.png");
-	t7.loadFromFile("images/CPU4.png");
-	t8.loadFromFile("images/Restart-Button.png");
+	t1.loadFromFile("img/End-Menu.png");
+	t2.loadFromFile("img/Player-1.png");
+	t3.loadFromFile("img/Player-2.png");
+	t4.loadFromFile("img/CPU1.png");
+	t5.loadFromFile("img/CPU2.png");
+	t6.loadFromFile("img/CPU3.png");
+	t7.loadFromFile("img/CPU4.png");
+	t8.loadFromFile("img/Restart-Button.png");
 
 
 	if (nbtour % 2) f[1].setTexture(t2);
@@ -512,15 +512,15 @@ void Partie::lancerjeu()
 	this->grille.deplacementnaif(1);
 	this->grille.deplacementnaif(2);
 	affiche2(this->grille, board); int size = 56, s = 0;
-	t1.loadFromFile("images/Pieces.png");
-	t2.loadFromFile("images/Chessboard.png");
-	t3.loadFromFile("images/Player-1.png");
-	t4.loadFromFile("images/Player-2.png");
-	t5.loadFromFile("images/CPU1.png");
-	t6.loadFromFile("images/CPU2.png");
-	t7.loadFromFile("images/CPU3.png");
-	t8.loadFromFile("images/CPU4.png");
-	t9.loadFromFile("images/Save-Button.png");
+	t1.loadFromFile("img/Pieces.png");
+	t2.loadFromFile("img/Chessboard.png");
+	t3.loadFromFile("img/Player-1.png");
+	t4.loadFromFile("img/Player-2.png");
+	t5.loadFromFile("img/CPU1.png");
+	t6.loadFromFile("img/CPU2.png");
+	t7.loadFromFile("img/CPU3.png");
+	t8.loadFromFile("img/CPU4.png");
+	t9.loadFromFile("img/Save-Button.png");
 
 
 

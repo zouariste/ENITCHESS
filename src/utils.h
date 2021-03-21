@@ -156,7 +156,7 @@ int liste<T>::cherchechaine(const T data) const
     return 0;
 }
 
-class echequier;
+class chessboard;
 
 class piece
 {   public:
@@ -166,9 +166,9 @@ class piece
     liste<coord> possibilites;
     piece(int j) {liste<coord> ini;joueur=j;possibilites=ini;}
     ~piece(){}
-    int verifami(coord dest,echequier E);
-    int verifennemi(coord dest,echequier E) ;
-    virtual void deplacementnaif(coord source,echequier tab)=0;
+    int verifami(coord dest,chessboard E);
+    int verifennemi(coord dest,chessboard E) ;
+    virtual void deplacementnaif(coord source,chessboard tab)=0;
 };
 
 class reine :public piece
@@ -176,42 +176,42 @@ class reine :public piece
     public:
     reine(int j):piece(j){valeur=10;symbole=81;}
 
-    void deplacementnaif(coord source,echequier tab);
+    void deplacementnaif(coord source,chessboard tab);
 };
 
 class fou :public piece
 {
     public:
     fou(int j):piece(j){valeur=3;symbole=66;}
-    void deplacementnaif(coord source,echequier tab);
+    void deplacementnaif(coord source,chessboard tab);
 };
 
 class tour :public piece
 {
     public:
     tour(int j):piece(j){valeur=5;symbole=82;}
-    void deplacementnaif(coord source,echequier tab);
+    void deplacementnaif(coord source,chessboard tab);
 };
 
 class pion :public piece
 {
     public:
     pion(int j):piece(j){valeur=1;symbole=80;}
-    void deplacementnaif(coord source,echequier tab);
+    void deplacementnaif(coord source,chessboard tab);
 };
 
 class cheval :public piece
 {
     public:
     cheval(int j):piece(j){valeur=4;symbole=75;}
-    void deplacementnaif(coord source,echequier tab);
+    void deplacementnaif(coord source,chessboard tab);
 };
 
 class roi :public piece
 {
     public:
     roi(int j):piece(j){valeur=999;symbole=244;}
-    void deplacementnaif(coord source,echequier tab);
+    void deplacementnaif(coord source,chessboard tab);
 };
 
 class Joueur
@@ -220,7 +220,7 @@ class Joueur
     string nom;
     //virtual void demandernom()=0;
 	virtual int demandersauvegarde() = 0;
-    virtual bool decidermouvement(echequier &E,coord &ini,coord &sol)=0;
+    virtual bool decidermouvement(chessboard &E,coord &ini,coord &sol)=0;
     virtual piece* choisirpiece()=0;
 };
 

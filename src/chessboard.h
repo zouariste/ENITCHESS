@@ -1,13 +1,13 @@
 #ifndef ECHEQUIER_H_INCLUDED
 #define ECHEQUIER_H_INCLUDED
 
-#include "prototype.h"
+#include "utils.h"
 #include <stdio.h>
 
 class piece;
 class Joueur;
 
-class echequier
+class chessboard
 {
 private:
 	piece * Tab[8][8];
@@ -16,7 +16,7 @@ public:
 	int check(int ntour, coord coroi);
 	coord chercheroi(int ntour);
 	int finpartie(int ntour);
-	void deplacementlegal(echequier E, int ntour);
+	void deplacementlegal(chessboard E, int ntour);
 	void forcedeplacer(coord &c1, coord &c2)
 	{
 		if (this->Tab[c2.x][c2.y] != NULL) delete this->Tab[c2.x][c2.y];
@@ -49,7 +49,7 @@ public:
 		this->Tab[0][4] = new roi(2);                this->Tab[7][4] = new roi(1);
 	}
 
-	echequier()
+	chessboard()
 	{
 		for (int i = 0; i<8; i++)
 			for (int j = 0; j<8; j++)
@@ -68,13 +68,13 @@ public:
 						this->getpiece(loc)->deplacementnaif(loc, *this);
 			}
 	}
-	~echequier()
+	~chessboard()
 	{
 		for (int i = 0; i<8; i++)
 			for (int j = 0; j<8; j++)
 				delete this->Tab[i][j];
 	}
-	echequier(const echequier& tab)
+	chessboard(const chessboard& tab)
 	{
 		for (int i = 0; i<8; i++)
 			for (int j = 0; j<8; j++)
@@ -124,7 +124,7 @@ public:
 		temp = this->getpiece(pos)->possibilites.tete;
 		while (this->getpiece(pos)->possibilites.tete != NULL)
 		{
-			echequier Taux(*this);
+			chessboard Taux(*this);
 			Taux.forcedeplacer(pos, this->getpiece(pos)->possibilites.tete->elt);
 			for (int i = 0; i<8; i++)
 				for (int j = 0; j<8; j++)
@@ -147,7 +147,7 @@ public:
 		}
 		while (temp != NULL)
 		{
-			echequier Taux(*this);
+			chessboard Taux(*this);
 			Taux.forcedeplacer(pos, temp->elt);
 			coord loc;
 			for (int i = 0; i<8; i++)
@@ -197,7 +197,7 @@ public:
 
 };
 
-void echequier::printchess()
+void chessboard::printchess()
 {
 
 	int i, j;
@@ -238,7 +238,7 @@ void echequier::printchess()
 	if (this->Tab[i][j]!=NULL) {cout<<"coord"<<i<<"  "<<j<<"  type  ";printf("%c",this->Tab[i][j]->symbole);cout<<endl; this->Tab[i][j]->possibilites.affichechaine();cout<<endl;}
 }
 
-int echequier::check(int ntour, coord coroi)
+int chessboard::check(int ntour, coord coroi)
 {
 	coord loc;
 	for (int i = 0; i<8; i++)
@@ -253,7 +253,7 @@ int echequier::check(int ntour, coord coroi)
 	return 0;
 }
 
-coord echequier::chercheroi(int ntour)
+coord chessboard::chercheroi(int ntour)
 {
 	int i, j;
 	coord co;
@@ -267,7 +267,7 @@ coord echequier::chercheroi(int ntour)
 	return co;
 }
 
-int echequier::finpartie(int ntour)
+int chessboard::finpartie(int ntour)
 {
 	int i, j; coord loc;
 	for (i = 0; i<8; i++)
