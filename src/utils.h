@@ -216,7 +216,7 @@ class roi :public piece
 
 class Joueur
 {   public:
-    int couleur;
+    int color;
     string nom;
     //virtual void demandernom()=0;
 	virtual int demandersauvegarde() = 0;

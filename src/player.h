@@ -18,7 +18,7 @@ class Machine :public Joueur
 	int difficulte;
 	int demandersauvegarde() { return this->difficulte; }
     Machine(int diff) {this->difficulte=diff;}
-    piece * choisirpiece(){piece *res=new reine(this->couleur);return res;}
+    piece * choisirpiece(){piece *res=new reine(this->color);return res;}
     void minimax( int profondeur , chessboard &E ,coord &ini,coord &sol);
     int recherchemin (int,chessboard&);
     int recherchemax (int,chessboard&);
@@ -33,8 +33,8 @@ class Machine :public Joueur
             for (j=0;j<8;j++)
             {
                 loc.x=i;loc.y=j;
-                if ((E.verifpiece(loc)&&(E.getpiece(loc)->joueur ==this->couleur))) {v=v+E.getpiece(loc)->valeur;}
-                if ((E.verifpiece(loc)&&(E.getpiece(loc)->joueur !=this->couleur))) {v=v-E.getpiece(loc)->valeur;}
+                if ((E.verifpiece(loc)&&(E.getpiece(loc)->joueur ==this->color))) {v=v+E.getpiece(loc)->valeur;}
+                if ((E.verifpiece(loc)&&(E.getpiece(loc)->joueur !=this->color))) {v=v-E.getpiece(loc)->valeur;}
 
             }
         }
@@ -51,7 +51,7 @@ class Machine :public Joueur
 bool Humain::decidermouvement(chessboard &E, coord &ini, coord &dest)
 {
 
-	if ((ini.verifcoord()) && (E.verifpiece(ini)) && (E.getpiece(ini)->joueur == this->couleur) && (!(E.getpiece(ini)->possibilites.listevide())) && (E.getpiece(ini)->possibilites.cherchechaine(dest)))
+	if ((ini.verifcoord()) && (E.verifpiece(ini)) && (E.getpiece(ini)->joueur == this->color) && (!(E.getpiece(ini)->possibilites.listevide())) && (E.getpiece(ini)->possibilites.cherchechaine(dest)))
 		return true;
 	else
 		return false;
@@ -67,16 +67,16 @@ void Machine::minimax( int profondeur , chessboard &E ,coord &ini,coord &sol)
         for(int j = 0; j < 8; j++ )
         {
             loc.x=i;loc.y=j;
-            if((E.verifpiece(loc)) && (E.getpiece(loc)->joueur == this->couleur))
+            if((E.verifpiece(loc)) && (E.getpiece(loc)->joueur == this->color))
             {
                 for (cCell<coord> *tmp = E.getpiece(loc)->possibilites.tete; tmp != NULL; tmp = tmp->succ)
                 {
                     temp.x=i,temp.y=j;
                     chessboard Aux=E;
                     Aux.mouvement(temp,tmp->elt,this);
-                    Aux.deplacementnaif(this->couleur+1);
-                    Aux.deplacementlegal(this->couleur+1);
-                    if (Aux.finpartie(this->couleur+1)) {ini.x = i;ini.y = j;sol.x = tmp->elt.x;sol.y = tmp->elt.y;return;}
+                    Aux.deplacementnaif(this->color+1);
+                    Aux.deplacementlegal(this->color+1);
+                    if (Aux.finpartie(this->color+1)) {ini.x = i;ini.y = j;sol.x = tmp->elt.x;sol.y = tmp->elt.y;return;}
                     valeur = this->recherchemin( profondeur-1 , Aux );
                     if (valeur == 999) {ini.x = i;ini.y = j;sol.x = tmp->elt.x;sol.y = tmp->elt.y;return;}
                     if(( valeur > meilleurevaleur) ||( (valeur==meilleurevaleur) &&((rand() % 6)==2)))
@@ -107,16 +107,16 @@ int Machine::recherchemin( int profondeur , chessboard &E )
         for(int j = 0; j < 8; j++ )
         {
             loc.x=i;loc.y=j;
-            if((E.verifpiece(loc)) && (E.getpiece(loc)->joueur != this->couleur))
+            if((E.verifpiece(loc)) && (E.getpiece(loc)->joueur != this->color))
             {
                 for (cCell<coord> *tmp = E.getpiece(loc)->possibilites.tete; tmp != NULL; tmp = tmp->succ)
                 {
                     temp.x=i,temp.y=j;
                     chessboard Aux=E;
                     Aux.mouvement(temp,tmp->elt,this);
-                    Aux.deplacementnaif(this->couleur);
-                    Aux.deplacementlegal(this->couleur);
-                    if (Aux.finpartie(this->couleur)) return (-999);
+                    Aux.deplacementnaif(this->color);
+                    Aux.deplacementlegal(this->color);
+                    if (Aux.finpartie(this->color)) return (-999);
 
                     int valeur = -this->recherchemax( profondeur-1 , Aux );
                     if (valeur==999) return (999);
@@ -145,16 +145,16 @@ int Machine::recherchemax( int profondeur ,  chessboard &E )
         for(int j = 0; j < 8; j++ )
         {
             loc.x=i;loc.y=j;
-            if((E.verifpiece(loc)) && (E.getpiece(loc)->joueur == this->couleur))
+            if((E.verifpiece(loc)) && (E.getpiece(loc)->joueur == this->color))
             {
                 for (cCell<coord> *tmp = E.getpiece(loc)->possibilites.tete; tmp != NULL; tmp = tmp->succ)
                 {
                     temp.x=i,temp.y=j;
                     chessboard Aux=E;
                     Aux.mouvement(temp,tmp->elt,this);
-                    Aux.deplacementnaif(this->couleur+1);
-                    Aux.deplacementlegal(this->couleur+1);
-                    if (Aux.finpartie(this->couleur+1)) return (999);
+                    Aux.deplacementnaif(this->color+1);
+                    Aux.deplacementlegal(this->color+1);
+                    if (Aux.finpartie(this->color+1)) return (999);
                     int valeur = this->recherchemin( profondeur-1 , Aux );
                     if (valeur==999) return (999);
 					if ((valeur > meilleurevaleur) || ((valeur == meilleurevaleur) && ((rand() % 6) == 2)))
@@ -181,16 +181,16 @@ void Machine::ABminimax( int profondeur , chessboard &E ,coord &ini,coord &sol)
         for(int j = 0; j < 8; j++ )
         {
             loc.x=i;loc.y=j;
-            if((E.verifpiece(loc)) && (E.getpiece(loc)->joueur == this->couleur))
+            if((E.verifpiece(loc)) && (E.getpiece(loc)->joueur == this->color))
             {
                 for (cCell<coord> *tmp = E.getpiece(loc)->possibilites.tete; tmp != NULL; tmp = tmp->succ)
                 {
                     temp.x=i,temp.y=j;
                     chessboard Aux=E;
                     Aux.mouvement(temp,tmp->elt,this);
-                    Aux.deplacementnaif(this->couleur+1);
-                    Aux.deplacementlegal(this->couleur+1);
-                    if (Aux.finpartie(this->couleur+1)) {ini.x = i;ini.y = j;sol.x = tmp->elt.x;sol.y = tmp->elt.y;return;}
+                    Aux.deplacementnaif(this->color+1);
+                    Aux.deplacementlegal(this->color+1);
+                    if (Aux.finpartie(this->color+1)) {ini.x = i;ini.y = j;sol.x = tmp->elt.x;sol.y = tmp->elt.y;return;}
                     int valeur = ABrecherchemin( profondeur-1 , Aux ,-10000,10000);
                     if (valeur == 999) {ini.x = i;ini.y = j;sol.x = tmp->elt.x;sol.y = tmp->elt.y;return;}
                     if( valeur > meilleurevaleur )
@@ -221,16 +221,16 @@ int Machine::ABrecherchemin( int profondeur , chessboard &E,int a,int b )
         for(int j = 0; j < 8; j++ )
         {
             loc.x=i;loc.y=j;
-            if((E.verifpiece(loc)) && (E.getpiece(loc)->joueur != this->couleur))
+            if((E.verifpiece(loc)) && (E.getpiece(loc)->joueur != this->color))
             {
                 for (cCell<coord> *tmp = E.getpiece(loc)->possibilites.tete; tmp != NULL; tmp = tmp->succ)
                 {
                     temp.x=i,temp.y=j;
                     chessboard Aux=E;
                     Aux.mouvement(temp,tmp->elt,this);
-                    Aux.deplacementnaif(this->couleur);
-                    Aux.deplacementlegal(this->couleur);
-                    if (Aux.finpartie(this->couleur)) return (-999);
+                    Aux.deplacementnaif(this->color);
+                    Aux.deplacementlegal(this->color);
+                    if (Aux.finpartie(this->color)) return (-999);
                     int valeur = ABrecherchemax(profondeur-1,Aux,alpha,beta);
                     if (valeur==999) return (999);
                     if( valeur < meilleurevaleur )
@@ -261,16 +261,16 @@ int Machine::ABrecherchemax( int profondeur ,  chessboard &E ,int a,int b)
         for(int j = 0; j < 8; j++ )
         {
             loc.x=i;loc.y=j;
-            if((E.verifpiece(loc)) && (E.getpiece(loc)->joueur == this->couleur))
+            if((E.verifpiece(loc)) && (E.getpiece(loc)->joueur == this->color))
             {
                 for (cCell<coord> *tmp = E.getpiece(loc)->possibilites.tete; tmp != NULL; tmp = tmp->succ)
                 {
                     temp.x=i,temp.y=j;
                     chessboard Aux=E;
                     Aux.mouvement(temp,tmp->elt,this);
-                    Aux.deplacementnaif(this->couleur+1);
-                    Aux.deplacementlegal(this->couleur+1);
-                    if (Aux.finpartie(this->couleur+1)) return (999);
+                    Aux.deplacementnaif(this->color+1);
+                    Aux.deplacementlegal(this->color+1);
+                    if (Aux.finpartie(this->color+1)) return (999);
                     int valeur = ABrecherchemin(profondeur-1,Aux,alpha,beta);
                     if (valeur==999) return (999);
                     if( valeur > meilleurevaleur )

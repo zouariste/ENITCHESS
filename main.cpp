@@ -9,8 +9,9 @@ using namespace std;
 int main()
 {
 	
-	Partie x; 
-	//Pour Simuler une game veuillez Choisir la difficult� respective
-	//x.blanc = new Machine(2);	x.noir = new Machine(1); x.blanc->couleur = 1; x.noir->couleur = 2;
-	x.lancerjeu();
+	Game x; 
+	// To simulate a AI vs AI game, please choose the respective difficulty.
+	// x.white = new Machine(2); x.black = new Machine(1); x.white->color = 1; x.black->color = 2;
+	x.startgame();
+
 }
