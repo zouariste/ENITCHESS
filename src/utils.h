@@ -18,43 +18,13 @@ using namespace std;
 class coord {
     public: int x;
     int y;
-    int verifcoord();
-    void lirecoord();
-    bool operator == (coord
-        const & b);
-    friend ostream & operator << (ostream & , coord);
-
-};
-
-template < class T >
-    struct cCell {
-        cCell(T data): elt(data), succ(NULL) {}
-        T elt;
-        cCell < T > * succ;
-    };
-
-template < class T >
-    class liste {
-        public: cCell < T > * head;
-        liste(): head(NULL) {};
-        ~liste();
-        void ajoutliste(const T data);
-        void affichechaine();
-        int cherchechaine(const T data) const;
-        int emptylist() const {
-            if (head == NULL) return 1;
-            return 0;
-        }
-    };
-
-int coord::verifcoord() {
+    int verifcoord() {
     if ((this -> x >= 0) && (this -> x < 8) && (this -> y >= 0) && (this -> y < 8))
         return 1;
     else
         return 0;
-}
-
-void coord::lirecoord() {
+    }
+    void lirecoord() {
     char ch[2];
     cin >> ch;
     switch (ch[0]) {
@@ -113,18 +83,40 @@ void coord::lirecoord() {
     default:
         cout << "erreur" << endl;
     }
-}
+    }
+    bool operator == (coord
+        const & b) {
+        if ((this -> x == b.x) && (this -> y == b.y)) return true;
+        else return false;
+    }
 
-bool coord::operator == (coord
-    const & b) {
-    if ((this -> x == b.x) && (this -> y == b.y)) return true;
-    else return false;
-}
-
-ostream & operator << (ostream & flux, coord pos) {
+   friend ostream & operator << (ostream & flux, coord pos) {
     flux << pos.x << "  " << pos.y << endl;
     return flux;
-}
+} 
+
+};
+
+template < class T >
+    struct cCell {
+        cCell(T data): elt(data), succ(NULL) {}
+        T elt;
+        cCell < T > * succ;
+    };
+
+template < class T >
+    class liste {
+        public: cCell < T > * head;
+        liste(): head(NULL) {};
+        ~liste();
+        void ajoutliste(const T data);
+        void affichechaine();
+        int cherchechaine(const T data) const;
+        int emptylist() const {
+            if (head == NULL) return 1;
+            return 0;
+        }
+    };
 
 template < class T >
     liste < T > ::~liste() {
