@@ -2,492 +2,445 @@
 #define CLASSPIECE_H_INCLUDED
 
 #include "utils.h"
+
 #include "chessboard.h"
 
-int piece::verifami (coord dest,chessboard E)
-{
-    if (E.verifpiece(dest))
-    {
-        if (this->joueur == (E.getpiece(dest))->joueur) return (1); else return (0);
-    }
-    else return (0);
+int Piece::verifami(coord dest, Chessboard E) {
+    if (E.Piececheck(dest)) {
+        if (this -> player == (E.getPiece(dest)) -> player) return (1);
+        else return (0);
+    } else return (0);
 }
 
-int piece::verifennemi(coord dest,chessboard E)
-{
-    if (E.verifpiece(dest))
-    {
-        if (this->joueur != E.getpiece(dest)->joueur) return (1); else return (0);
-    }
-    else return (0);
+int Piece::verifennemi(coord dest, Chessboard E) {
+    if (E.Piececheck(dest)) {
+        if (this -> player != E.getPiece(dest) -> player) return (1);
+        else return (0);
+    } else return (0);
 }
 
-void reine::deplacementnaif(coord source,chessboard Tab)
-{
-    int i=source.x,j=source.y;
-    int x,y;
+void Queen::naiveMove(coord source, Chessboard Tab) {
+    int i = source.x, j = source.y;
+    int x, y;
     coord pos;
-    x=1,y=1;
-    this->possibilites.~liste();
-    while (1)
-    {
-        pos.x=i+x;pos.y=j+y;
-        if (pos.verifcoord())
-        {
-            if(this->verifami(pos,Tab))
+    x = 1, y = 1;
+    this -> possibilites.~liste();
+    while (1) {
+        pos.x = i + x;
+        pos.y = j + y;
+        if (pos.verifcoord()) {
+            if (this -> verifami(pos, Tab))
                 break;
 
-            if(this->verifennemi(pos,Tab))
-            {
-                this->possibilites.ajoutliste(pos);
+            if (this -> verifennemi(pos, Tab)) {
+                this -> possibilites.ajoutliste(pos);
                 break;
             }
-            this->possibilites.ajoutliste(pos);
-            x+=1;y+=1;
-        }
-        else break;
+            this -> possibilites.ajoutliste(pos);
+            x += 1;
+            y += 1;
+        } else break;
     }
-    x=1,y=1;
-    while (1)
-    {
-        pos.x=i-x;pos.y=j-y;
-        if (pos.verifcoord())
-        {
-            if(this->verifami(pos,Tab))
+    x = 1, y = 1;
+    while (1) {
+        pos.x = i - x;
+        pos.y = j - y;
+        if (pos.verifcoord()) {
+            if (this -> verifami(pos, Tab))
                 break;
 
-            if(this->verifennemi(pos,Tab))
-            {
-                this->possibilites.ajoutliste(pos);
+            if (this -> verifennemi(pos, Tab)) {
+                this -> possibilites.ajoutliste(pos);
                 break;
             }
-            this->possibilites.ajoutliste(pos);
-            x+=1;y+=1;
-        }
-        else break;
+            this -> possibilites.ajoutliste(pos);
+            x += 1;
+            y += 1;
+        } else break;
     }
-    x=1,y=1;
-    while (1)
-    {
+    x = 1, y = 1;
+    while (1) {
 
-        pos.x=i+x;pos.y=j-y;
-        if (pos.verifcoord())
-        {
-            if(this->verifami(pos,Tab))
+        pos.x = i + x;
+        pos.y = j - y;
+        if (pos.verifcoord()) {
+            if (this -> verifami(pos, Tab))
                 break;
 
-            if(this->verifennemi(pos,Tab))
-            {
-                this->possibilites.ajoutliste(pos);
+            if (this -> verifennemi(pos, Tab)) {
+                this -> possibilites.ajoutliste(pos);
                 break;
             }
-            this->possibilites.ajoutliste(pos);
-            x+=1;y+=1;
-        }
-        else break;
-
+            this -> possibilites.ajoutliste(pos);
+            x += 1;
+            y += 1;
+        } else break;
 
     }
-    x=1,y=1;
-    while (1)
-    {
-        pos.x=i-x;pos.y=j+y;
-        if (pos.verifcoord())
-        {
-            if(this->verifami(pos,Tab))
+    x = 1, y = 1;
+    while (1) {
+        pos.x = i - x;
+        pos.y = j + y;
+        if (pos.verifcoord()) {
+            if (this -> verifami(pos, Tab))
                 break;
 
-            if(this->verifennemi(pos,Tab))
-            {
-                this->possibilites.ajoutliste(pos);
+            if (this -> verifennemi(pos, Tab)) {
+                this -> possibilites.ajoutliste(pos);
                 break;
             }
-            this->possibilites.ajoutliste(pos);
-            x+=1;y+=1;
-        }
-        else break;
+            this -> possibilites.ajoutliste(pos);
+            x += 1;
+            y += 1;
+        } else break;
     }
-    x=1;
-    while (1)
-    {
+    x = 1;
+    while (1) {
 
-        pos.x=i+x;pos.y=j;
-        if (pos.verifcoord())
-        {
-            if(this->verifami(pos,Tab))
+        pos.x = i + x;
+        pos.y = j;
+        if (pos.verifcoord()) {
+            if (this -> verifami(pos, Tab))
                 break;
 
-            if(this->verifennemi(pos,Tab))
-            {
-                this->possibilites.ajoutliste(pos);
+            if (this -> verifennemi(pos, Tab)) {
+                this -> possibilites.ajoutliste(pos);
                 break;
             }
-            this->possibilites.ajoutliste(pos);
-            x+=1;y+=1;
-        }
-        else break;
+            this -> possibilites.ajoutliste(pos);
+            x += 1;
+            y += 1;
+        } else break;
     }
-    x=1;
-    while (1)
-    {
+    x = 1;
+    while (1) {
 
-        pos.x=i-x;pos.y=j;
-        if (pos.verifcoord())
-        {
-            if(this->verifami(pos,Tab))
+        pos.x = i - x;
+        pos.y = j;
+        if (pos.verifcoord()) {
+            if (this -> verifami(pos, Tab))
                 break;
 
-            if(this->verifennemi(pos,Tab))
-            {
-                this->possibilites.ajoutliste(pos);
+            if (this -> verifennemi(pos, Tab)) {
+                this -> possibilites.ajoutliste(pos);
                 break;
             }
-            this->possibilites.ajoutliste(pos);
-            x+=1;y+=1;
-        }
-        else break;
+            this -> possibilites.ajoutliste(pos);
+            x += 1;
+            y += 1;
+        } else break;
     }
-    y=1;
-    while (1)
-    {
+    y = 1;
+    while (1) {
 
-        pos.x=i;pos.y=j+y;
-        if (pos.verifcoord())
-        {
-            if(this->verifami(pos,Tab))
+        pos.x = i;
+        pos.y = j + y;
+        if (pos.verifcoord()) {
+            if (this -> verifami(pos, Tab))
                 break;
 
-            if(this->verifennemi(pos,Tab))
-            {
-                this->possibilites.ajoutliste(pos);
+            if (this -> verifennemi(pos, Tab)) {
+                this -> possibilites.ajoutliste(pos);
                 break;
             }
-            this->possibilites.ajoutliste(pos);
-            x+=1;y+=1;
-        }
-        else break;
+            this -> possibilites.ajoutliste(pos);
+            x += 1;
+            y += 1;
+        } else break;
     }
-    y=1;
-    while (1)
-    {
-        pos.x=i;pos.y=j-y;
-        if (pos.verifcoord())
-        {
-            if(this->verifami(pos,Tab))
+    y = 1;
+    while (1) {
+        pos.x = i;
+        pos.y = j - y;
+        if (pos.verifcoord()) {
+            if (this -> verifami(pos, Tab))
                 break;
 
-            if(this->verifennemi(pos,Tab))
-            {
-                this->possibilites.ajoutliste(pos);
+            if (this -> verifennemi(pos, Tab)) {
+                this -> possibilites.ajoutliste(pos);
                 break;
             }
-            this->possibilites.ajoutliste(pos);
-            x+=1;y+=1;
-        }
-        else break;
+            this -> possibilites.ajoutliste(pos);
+            x += 1;
+            y += 1;
+        } else break;
     }
 }
 
-void fou::deplacementnaif(coord source,chessboard Tab)
-{
-    int i=source.x,j=source.y;
-    int x,y;
+void Bishop::naiveMove(coord source, Chessboard Tab) {
+    int i = source.x, j = source.y;
+    int x, y;
     coord pos;
-    x=1,y=1;
-    this->possibilites.~liste();
-    while (1)
-    {
-        pos.x=i+x;pos.y=j+y;
-        if (pos.verifcoord())
-        {
-            if(this->verifami(pos,Tab))
+    x = 1, y = 1;
+    this -> possibilites.~liste();
+    while (1) {
+        pos.x = i + x;
+        pos.y = j + y;
+        if (pos.verifcoord()) {
+            if (this -> verifami(pos, Tab))
                 break;
 
-            if(this->verifennemi(pos,Tab))
-            {
-                this->possibilites.ajoutliste(pos);
+            if (this -> verifennemi(pos, Tab)) {
+                this -> possibilites.ajoutliste(pos);
                 break;
             }
-            this->possibilites.ajoutliste(pos);
-            x+=1;y+=1;
-        }
-        else break;
+            this -> possibilites.ajoutliste(pos);
+            x += 1;
+            y += 1;
+        } else break;
     }
-    x=1,y=1;
-    while (1)
-    {
-        pos.x=i-x;pos.y=j-y;
-        if (pos.verifcoord())
-        {
-            if(this->verifami(pos,Tab))
+    x = 1, y = 1;
+    while (1) {
+        pos.x = i - x;
+        pos.y = j - y;
+        if (pos.verifcoord()) {
+            if (this -> verifami(pos, Tab))
                 break;
 
-            if(this->verifennemi(pos,Tab))
-            {
-                this->possibilites.ajoutliste(pos);
+            if (this -> verifennemi(pos, Tab)) {
+                this -> possibilites.ajoutliste(pos);
                 break;
             }
-            this->possibilites.ajoutliste(pos);
-            x+=1;y+=1;
-        }
-        else break;
+            this -> possibilites.ajoutliste(pos);
+            x += 1;
+            y += 1;
+        } else break;
     }
-    x=1,y=1;
-    while (1)
-    {
+    x = 1, y = 1;
+    while (1) {
 
-        pos.x=i+x;pos.y=j-y;
-        if (pos.verifcoord())
-        {
-            if(this->verifami(pos,Tab))
+        pos.x = i + x;
+        pos.y = j - y;
+        if (pos.verifcoord()) {
+            if (this -> verifami(pos, Tab))
                 break;
 
-            if(this->verifennemi(pos,Tab))
-            {
-                this->possibilites.ajoutliste(pos);
+            if (this -> verifennemi(pos, Tab)) {
+                this -> possibilites.ajoutliste(pos);
                 break;
             }
-            this->possibilites.ajoutliste(pos);
-            x+=1;y+=1;
-        }
-        else break;
-
+            this -> possibilites.ajoutliste(pos);
+            x += 1;
+            y += 1;
+        } else break;
 
     }
-    x=1,y=1;
-    while (1)
-    {
+    x = 1, y = 1;
+    while (1) {
 
-        pos.x=i-x;pos.y=j+y;
-        if (pos.verifcoord())
-        {
-            if(this->verifami(pos,Tab))
+        pos.x = i - x;
+        pos.y = j + y;
+        if (pos.verifcoord()) {
+            if (this -> verifami(pos, Tab))
                 break;
 
-            if(this->verifennemi(pos,Tab))
-            {
-                this->possibilites.ajoutliste(pos);
+            if (this -> verifennemi(pos, Tab)) {
+                this -> possibilites.ajoutliste(pos);
                 break;
             }
-            this->possibilites.ajoutliste(pos);
-            x+=1;y+=1;
-        }
-        else break;
+            this -> possibilites.ajoutliste(pos);
+            x += 1;
+            y += 1;
+        } else break;
     }
 }
 
-void tour::deplacementnaif(coord source,chessboard Tab)
-{
-    int i=source.x,j=source.y;
-    int x,y;
+void Rook::naiveMove(coord source, Chessboard Tab) {
+    int i = source.x, j = source.y;
+    int x, y;
     coord pos;
-    x=1,y=1;
-    this->possibilites.~liste();
-    while (1)
-    {
+    x = 1, y = 1;
+    this -> possibilites.~liste();
+    while (1) {
 
-        pos.x=i+x;pos.y=j;
-        if (pos.verifcoord())
-        {
-            if(this->verifami(pos,Tab))
+        pos.x = i + x;
+        pos.y = j;
+        if (pos.verifcoord()) {
+            if (this -> verifami(pos, Tab))
                 break;
 
-            if(this->verifennemi(pos,Tab))
-            {
-                this->possibilites.ajoutliste(pos);
+            if (this -> verifennemi(pos, Tab)) {
+                this -> possibilites.ajoutliste(pos);
                 break;
             }
-            this->possibilites.ajoutliste(pos);
-            x+=1;y+=1;
-        }
-        else break;
+            this -> possibilites.ajoutliste(pos);
+            x += 1;
+            y += 1;
+        } else break;
     }
-    x=1;
-    while (1)
-    {
+    x = 1;
+    while (1) {
 
-        pos.x=i-x;pos.y=j;
-        if (pos.verifcoord())
-        {
-            if(this->verifami(pos,Tab))
+        pos.x = i - x;
+        pos.y = j;
+        if (pos.verifcoord()) {
+            if (this -> verifami(pos, Tab))
                 break;
 
-            if(this->verifennemi(pos,Tab))
-            {
-                this->possibilites.ajoutliste(pos);
+            if (this -> verifennemi(pos, Tab)) {
+                this -> possibilites.ajoutliste(pos);
                 break;
             }
-            this->possibilites.ajoutliste(pos);
-            x+=1;y+=1;
-        }
-        else break;
+            this -> possibilites.ajoutliste(pos);
+            x += 1;
+            y += 1;
+        } else break;
     }
-    y=1;
-    while (1)
-    {
+    y = 1;
+    while (1) {
 
-        pos.x=i;pos.y=j+y;
-        if (pos.verifcoord())
-        {
-            if(this->verifami(pos,Tab))
+        pos.x = i;
+        pos.y = j + y;
+        if (pos.verifcoord()) {
+            if (this -> verifami(pos, Tab))
                 break;
 
-            if(this->verifennemi(pos,Tab))
-            {
-                this->possibilites.ajoutliste(pos);
+            if (this -> verifennemi(pos, Tab)) {
+                this -> possibilites.ajoutliste(pos);
                 break;
             }
-            this->possibilites.ajoutliste(pos);
-            x+=1;y+=1;
-        }
-        else break;
+            this -> possibilites.ajoutliste(pos);
+            x += 1;
+            y += 1;
+        } else break;
     }
-    y=1;
-    while (1)
-    {
-        pos.x=i;pos.y=j-y;
-        if (pos.verifcoord())
-        {
-            if(this->verifami(pos,Tab))
+    y = 1;
+    while (1) {
+        pos.x = i;
+        pos.y = j - y;
+        if (pos.verifcoord()) {
+            if (this -> verifami(pos, Tab))
                 break;
 
-            if(this->verifennemi(pos,Tab))
-            {
-                this->possibilites.ajoutliste(pos);
+            if (this -> verifennemi(pos, Tab)) {
+                this -> possibilites.ajoutliste(pos);
                 break;
             }
-            this->possibilites.ajoutliste(pos);
-            x+=1;y+=1;
-        }
-        else break;
+            this -> possibilites.ajoutliste(pos);
+            x += 1;
+            y += 1;
+        } else break;
     }
 }
 
-void pion::deplacementnaif(coord source,chessboard Tab)
-{
-    int i=source.x,j=source.y;
+void Pawn::naiveMove(coord source, Chessboard Tab) {
+    int i = source.x, j = source.y;
     coord pos;
-    this->possibilites.~liste();
-    if (this->joueur==1)
-    {
-        pos.x=i-1;
-        pos.y=j;
-        if ((!this->verifami(pos,Tab))&&(!this->verifennemi(pos,Tab))&&pos.verifcoord())
-            {
-                this->possibilites.ajoutliste(pos);
-                pos.x=i-2;
-                pos.y=j;
-                if ((i==6)&&(!this->verifami(pos,Tab))&&(!this->verifennemi(pos,Tab)))
-                    this->possibilites.ajoutliste(pos);
-            }
-        pos.x=i-1;
-        pos.y=j+1;
-        if ((this->verifennemi(pos,Tab))&&pos.verifcoord())
-            this->possibilites.ajoutliste(pos);
-        pos.x=i-1;
-        pos.y=j-1;
-        if ((this->verifennemi(pos,Tab))&&pos.verifcoord())
-            this->possibilites.ajoutliste(pos);
+    this -> possibilites.~liste();
+    if (this -> player == 1) {
+        pos.x = i - 1;
+        pos.y = j;
+        if ((!this -> verifami(pos, Tab)) && (!this -> verifennemi(pos, Tab)) && pos.verifcoord()) {
+            this -> possibilites.ajoutliste(pos);
+            pos.x = i - 2;
+            pos.y = j;
+            if ((i == 6) && (!this -> verifami(pos, Tab)) && (!this -> verifennemi(pos, Tab)))
+                this -> possibilites.ajoutliste(pos);
+        }
+        pos.x = i - 1;
+        pos.y = j + 1;
+        if ((this -> verifennemi(pos, Tab)) && pos.verifcoord())
+            this -> possibilites.ajoutliste(pos);
+        pos.x = i - 1;
+        pos.y = j - 1;
+        if ((this -> verifennemi(pos, Tab)) && pos.verifcoord())
+            this -> possibilites.ajoutliste(pos);
     }
-    if (this->joueur==2)
-    {
-        pos.x=i+1;
-        pos.y=j;
-        if ((!this->verifami(pos,Tab))&&(!this->verifennemi(pos,Tab))&&pos.verifcoord())
-            {
-                this->possibilites.ajoutliste(pos);
-                pos.x=i+2;
-                pos.y=j;
-                if ((i==1)&&(!this->verifami(pos,Tab))&&(!this->verifennemi(pos,Tab)))
-                    this->possibilites.ajoutliste(pos);
-            }
-        pos.x=i+1;
-        pos.y=j+1;
-        if ((this->verifennemi(pos,Tab))&&pos.verifcoord())
-            this->possibilites.ajoutliste(pos);
-        pos.x=i+1;
-        pos.y=j-1;
-        if ((this->verifennemi(pos,Tab))&&pos.verifcoord())
-            this->possibilites.ajoutliste(pos);
+    if (this -> player == 2) {
+        pos.x = i + 1;
+        pos.y = j;
+        if ((!this -> verifami(pos, Tab)) && (!this -> verifennemi(pos, Tab)) && pos.verifcoord()) {
+            this -> possibilites.ajoutliste(pos);
+            pos.x = i + 2;
+            pos.y = j;
+            if ((i == 1) && (!this -> verifami(pos, Tab)) && (!this -> verifennemi(pos, Tab)))
+                this -> possibilites.ajoutliste(pos);
+        }
+        pos.x = i + 1;
+        pos.y = j + 1;
+        if ((this -> verifennemi(pos, Tab)) && pos.verifcoord())
+            this -> possibilites.ajoutliste(pos);
+        pos.x = i + 1;
+        pos.y = j - 1;
+        if ((this -> verifennemi(pos, Tab)) && pos.verifcoord())
+            this -> possibilites.ajoutliste(pos);
     }
 }
 
-void cheval::deplacementnaif(coord source,chessboard Tab)
-{
-    int i=source.x,j=source.y;
-    this->possibilites.~liste();
+void Knight::naiveMove(coord source, Chessboard Tab) {
+    int i = source.x, j = source.y;
+    this -> possibilites.~liste();
     coord pos;
-    pos.x=i+1;
-    pos.y=j+2;
-    if ((!this->verifami(pos,Tab))&&pos.verifcoord())
-                this->possibilites.ajoutliste(pos);
-    pos.x=i-1;
-    pos.y=j+2;
-    if ((!this->verifami(pos,Tab))&&pos.verifcoord())
-                this->possibilites.ajoutliste(pos);
-    pos.x=i+1;
-    pos.y=j-2;
-    if ((!this->verifami(pos,Tab))&&pos.verifcoord())
-                this->possibilites.ajoutliste(pos);
-    pos.x=i-1;
-    pos.y=j-2;
-    if ((!this->verifami(pos,Tab))&&pos.verifcoord())
-                this->possibilites.ajoutliste(pos);
-    pos.x=i+2;
-    pos.y=j+1;
-    if ((!this->verifami(pos,Tab))&&pos.verifcoord())
-                this->possibilites.ajoutliste(pos);
-    pos.x=i+2;
-    pos.y=j-1;
-    if ((!this->verifami(pos,Tab))&&pos.verifcoord())
-                this->possibilites.ajoutliste(pos);
-    pos.x=i-2;
-    pos.y=j+1;
-    if ((!this->verifami(pos,Tab))&&pos.verifcoord())
-                this->possibilites.ajoutliste(pos);
-    pos.x=i-2;
-    pos.y=j-1;
-    if ((!this->verifami(pos,Tab))&&pos.verifcoord())
-                this->possibilites.ajoutliste(pos);
+    pos.x = i + 1;
+    pos.y = j + 2;
+    if ((!this -> verifami(pos, Tab)) && pos.verifcoord())
+        this -> possibilites.ajoutliste(pos);
+    pos.x = i - 1;
+    pos.y = j + 2;
+    if ((!this -> verifami(pos, Tab)) && pos.verifcoord())
+        this -> possibilites.ajoutliste(pos);
+    pos.x = i + 1;
+    pos.y = j - 2;
+    if ((!this -> verifami(pos, Tab)) && pos.verifcoord())
+        this -> possibilites.ajoutliste(pos);
+    pos.x = i - 1;
+    pos.y = j - 2;
+    if ((!this -> verifami(pos, Tab)) && pos.verifcoord())
+        this -> possibilites.ajoutliste(pos);
+    pos.x = i + 2;
+    pos.y = j + 1;
+    if ((!this -> verifami(pos, Tab)) && pos.verifcoord())
+        this -> possibilites.ajoutliste(pos);
+    pos.x = i + 2;
+    pos.y = j - 1;
+    if ((!this -> verifami(pos, Tab)) && pos.verifcoord())
+        this -> possibilites.ajoutliste(pos);
+    pos.x = i - 2;
+    pos.y = j + 1;
+    if ((!this -> verifami(pos, Tab)) && pos.verifcoord())
+        this -> possibilites.ajoutliste(pos);
+    pos.x = i - 2;
+    pos.y = j - 1;
+    if ((!this -> verifami(pos, Tab)) && pos.verifcoord())
+        this -> possibilites.ajoutliste(pos);
 }
 
-void roi::deplacementnaif(coord source,chessboard Tab)
-{
-    int i=source.x,j=source.y;
-    this->possibilites.~liste();
+void King::naiveMove(coord source, Chessboard Tab) {
+    int i = source.x, j = source.y;
+    this -> possibilites.~liste();
     coord pos;
-    pos.x=i+1;
-    pos.y=j+1;
-    if ((!this->verifami(pos,Tab))&&pos.verifcoord())
-                this->possibilites.ajoutliste(pos);
-    pos.x=i;
-    pos.y=j+1;
-    if ((!this->verifami(pos,Tab))&&pos.verifcoord())
-                this->possibilites.ajoutliste(pos);
-    pos.x=i-1;
-    pos.y=j+1;
-    if ((!this->verifami(pos,Tab))&&pos.verifcoord())
-                this->possibilites.ajoutliste(pos);
-    pos.x=i-1;
-    pos.y=j;
-    if ((!this->verifami(pos,Tab))&&pos.verifcoord())
-                this->possibilites.ajoutliste(pos);
-    pos.x=i+1;
-    pos.y=j;
-    if ((!this->verifami(pos,Tab))&&pos.verifcoord())
-                this->possibilites.ajoutliste(pos);
-    pos.x=i-1;
-    pos.y=j-1;
-    if ((!this->verifami(pos,Tab))&&pos.verifcoord())
-                this->possibilites.ajoutliste(pos);
-    pos.x=i;
-    pos.y=j-1;
-    if ((!this->verifami(pos,Tab))&&pos.verifcoord())
-                this->possibilites.ajoutliste(pos);
-    pos.x=i+1;
-    pos.y=j-1;
-    if ((!this->verifami(pos,Tab))&&pos.verifcoord())
-                this->possibilites.ajoutliste(pos);
+    pos.x = i + 1;
+    pos.y = j + 1;
+    if ((!this -> verifami(pos, Tab)) && pos.verifcoord())
+        this -> possibilites.ajoutliste(pos);
+    pos.x = i;
+    pos.y = j + 1;
+    if ((!this -> verifami(pos, Tab)) && pos.verifcoord())
+        this -> possibilites.ajoutliste(pos);
+    pos.x = i - 1;
+    pos.y = j + 1;
+    if ((!this -> verifami(pos, Tab)) && pos.verifcoord())
+        this -> possibilites.ajoutliste(pos);
+    pos.x = i - 1;
+    pos.y = j;
+    if ((!this -> verifami(pos, Tab)) && pos.verifcoord())
+        this -> possibilites.ajoutliste(pos);
+    pos.x = i + 1;
+    pos.y = j;
+    if ((!this -> verifami(pos, Tab)) && pos.verifcoord())
+        this -> possibilites.ajoutliste(pos);
+    pos.x = i - 1;
+    pos.y = j - 1;
+    if ((!this -> verifami(pos, Tab)) && pos.verifcoord())
+        this -> possibilites.ajoutliste(pos);
+    pos.x = i;
+    pos.y = j - 1;
+    if ((!this -> verifami(pos, Tab)) && pos.verifcoord())
+        this -> possibilites.ajoutliste(pos);
+    pos.x = i + 1;
+    pos.y = j - 1;
+    if ((!this -> verifami(pos, Tab)) && pos.verifcoord())
+        this -> possibilites.ajoutliste(pos);
 
 }
 
