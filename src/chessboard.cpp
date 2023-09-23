@@ -1,4 +1,5 @@
 #include "chessboard.h"
+#include "player.h"
 #include "utils.h"
 #include <cstdio>
 
@@ -53,7 +54,7 @@ void Chessboard::naiveMove(int n) {
         for (int j = 0; j < 8; j++) {
             loc.x = i;
             loc.y = j;
-            if (this->Piececheck(loc))
+            if (this->pieceCheck(loc))
                 if ((2 - (n) % 2) == this->getPiece(loc)->player)
                     this->getPiece(loc)->naiveMove(loc, *this);
         }
@@ -110,7 +111,7 @@ void Chessboard::setPiece(Piece* input, coord loc) {
     this->Tab[loc.x][loc.y] = input;
 }
 
-bool Chessboard::Piececheck(coord loc) {
+bool Chessboard::pieceCheck(coord loc) {
     if (loc.verifcoord()) {
         if (Tab[loc.x][loc.y] == NULL) return false;
         else return true;
@@ -130,7 +131,7 @@ void Chessboard::legalMoveOne(int i, int j, int nbtour) {
             for (int j = 0; j < 8; j++) {
                 loc.x = i;
                 loc.y = j;
-                if (Taux.Piececheck(loc))
+                if (Taux.pieceCheck(loc))
                     if ((2 - (nbtour) % 2) == Taux.getPiece(loc)->player)
                         Taux.getPiece(loc)->naiveMove(loc, Taux);
             }
@@ -152,7 +153,7 @@ void Chessboard::legalMoveOne(int i, int j, int nbtour) {
             for (int j = 0; j < 8; j++) {
                 loc.x = i;
                 loc.y = j;
-                if (Taux.Piececheck(loc))
+                if (Taux.pieceCheck(loc))
                     if ((2 - (nbtour) % 2) == Taux.getPiece(loc)->player)
                         Taux.getPiece(loc)->naiveMove(loc, Taux);
             }
@@ -176,7 +177,7 @@ void Chessboard::legalMove(int nbtour) {
         for (j = 0; j < 8; j++) {
             loc.x = i;
             loc.y = j;
-            if ((this->Piececheck(loc)) && (this->getPiece(loc)->player == (2 - (nbtour + 1) % 2)))
+            if ((this->pieceCheck(loc)) && (this->getPiece(loc)->player == (2 - (nbtour + 1) % 2)))
                 this->legalMoveOne(i, j, nbtour);
         }
     }
@@ -223,7 +224,7 @@ int Chessboard::check(int ntour, coord coking) {
         for (int j = 0; j < 8; j++) {
             loc.x = i;
             loc.y = j;
-            if (this->Piececheck(loc))
+            if (this->pieceCheck(loc))
                 if ((this->Tab[i][j]->player == ntour % 2 + 1))
                     if ((this->Tab[i][j]->possibilites.cherchechaine(coking)))
                         return 1;
@@ -238,7 +239,7 @@ coord Chessboard::findKing(int ntour) {
         for (j = 0; j < 8; j++) {
             co.x = i;
             co.y = j;
-            if ((this->Piececheck(co)) && (this->Tab[i][j]->value == 999) && (this->Tab[i][j]->player == 2 - (ntour % 2)))
+            if ((this->pieceCheck(co)) && (this->Tab[i][j]->value == 999) && (this->Tab[i][j]->player == 2 - (ntour % 2)))
                 return co;
         }
     return co;
@@ -251,7 +252,7 @@ int Chessboard::endGame(int ntour) {
         for (j = 0; j < 8; j++) {
             loc.x = i;
             loc.y = j;
-            if (this->Piececheck(loc))
+            if (this->pieceCheck(loc))
                 if ((2 - ntour % 2) == (this->Tab[i][j]->player)) {
                     if (!(this->Tab[i][j]->possibilites.emptylist())) return (0);
                 }

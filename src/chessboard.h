@@ -5,8 +5,8 @@
 
 #include <cstdio>
 
-class Piece;
 class Player;
+class Piece;
 
 class Chessboard {
 private:
@@ -27,7 +27,7 @@ public:
     void move(coord loc, coord dest, Player* qui);
     Piece* getPiece(coord loc);
     void setPiece(Piece* input, coord loc);
-    bool Piececheck(coord loc);
+    bool pieceCheck(coord loc);
     void legalMoveOne(int i, int j, int nbtour);
     void legalMove(int nbtour);
 };

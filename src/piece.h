@@ -1,447 +1,75 @@
-#ifndef CLASSPIECE_H_INCLUDED
-#define CLASSPIECE_H_INCLUDED
+#ifndef PIECE_H_INCLUDED
+#define PIECE_H_INCLUDED
 
 #include "utils.h"
 
 #include "chessboard.h"
 
-int Piece::verifami(coord dest, Chessboard E) {
-    if (E.Piececheck(dest)) {
-        if (this -> player == (E.getPiece(dest)) -> player) return (1);
-        else return (0);
-    } else return (0);
-}
 
-int Piece::verifennemi(coord dest, Chessboard E) {
-    if (E.Piececheck(dest)) {
-        if (this -> player != E.getPiece(dest) -> player) return (1);
-        else return (0);
-    } else return (0);
-}
-
-void Queen::naiveMove(coord source, Chessboard Tab) {
-    int i = source.x, j = source.y;
-    int x, y;
-    coord pos;
-    x = 1, y = 1;
-    this -> possibilites.~liste();
-    while (1) {
-        pos.x = i + x;
-        pos.y = j + y;
-        if (pos.verifcoord()) {
-            if (this -> verifami(pos, Tab))
-                break;
-
-            if (this -> verifennemi(pos, Tab)) {
-                this -> possibilites.ajoutliste(pos);
-                break;
-            }
-            this -> possibilites.ajoutliste(pos);
-            x += 1;
-            y += 1;
-        } else break;
+class Piece {
+    public: int player;
+    int value;
+    int symbole;
+    liste < coord > possibilites;
+    Piece(int j) {
+        liste < coord > ini;
+        player = j;
+        possibilites = ini;
     }
-    x = 1, y = 1;
-    while (1) {
-        pos.x = i - x;
-        pos.y = j - y;
-        if (pos.verifcoord()) {
-            if (this -> verifami(pos, Tab))
-                break;
+    ~Piece() {}
+    int verifami(coord dest, Chessboard E);
+    int verifennemi(coord dest, Chessboard E);
+    virtual void naiveMove(coord source, Chessboard tab) = 0;
+};
 
-            if (this -> verifennemi(pos, Tab)) {
-                this -> possibilites.ajoutliste(pos);
-                break;
-            }
-            this -> possibilites.ajoutliste(pos);
-            x += 1;
-            y += 1;
-        } else break;
+class Queen: public Piece {
+    public: Queen(int j): Piece(j) {
+        value = 10;
+        symbole = 81;
     }
-    x = 1, y = 1;
-    while (1) {
 
-        pos.x = i + x;
-        pos.y = j - y;
-        if (pos.verifcoord()) {
-            if (this -> verifami(pos, Tab))
-                break;
+    void naiveMove(coord source, Chessboard tab);
+};
 
-            if (this -> verifennemi(pos, Tab)) {
-                this -> possibilites.ajoutliste(pos);
-                break;
-            }
-            this -> possibilites.ajoutliste(pos);
-            x += 1;
-            y += 1;
-        } else break;
-
+class Bishop: public Piece {
+    public: Bishop(int j): Piece(j) {
+        value = 3;
+        symbole = 66;
     }
-    x = 1, y = 1;
-    while (1) {
-        pos.x = i - x;
-        pos.y = j + y;
-        if (pos.verifcoord()) {
-            if (this -> verifami(pos, Tab))
-                break;
+    void naiveMove(coord source, Chessboard tab);
+};
 
-            if (this -> verifennemi(pos, Tab)) {
-                this -> possibilites.ajoutliste(pos);
-                break;
-            }
-            this -> possibilites.ajoutliste(pos);
-            x += 1;
-            y += 1;
-        } else break;
+class Rook: public Piece {
+    public: Rook(int j): Piece(j) {
+        value = 5;
+        symbole = 82;
     }
-    x = 1;
-    while (1) {
+    void naiveMove(coord source, Chessboard tab);
+};
 
-        pos.x = i + x;
-        pos.y = j;
-        if (pos.verifcoord()) {
-            if (this -> verifami(pos, Tab))
-                break;
-
-            if (this -> verifennemi(pos, Tab)) {
-                this -> possibilites.ajoutliste(pos);
-                break;
-            }
-            this -> possibilites.ajoutliste(pos);
-            x += 1;
-            y += 1;
-        } else break;
+class Pawn: public Piece {
+    public: Pawn(int j): Piece(j) {
+        value = 1;
+        symbole = 80;
     }
-    x = 1;
-    while (1) {
+    void naiveMove(coord source, Chessboard tab);
+};
 
-        pos.x = i - x;
-        pos.y = j;
-        if (pos.verifcoord()) {
-            if (this -> verifami(pos, Tab))
-                break;
-
-            if (this -> verifennemi(pos, Tab)) {
-                this -> possibilites.ajoutliste(pos);
-                break;
-            }
-            this -> possibilites.ajoutliste(pos);
-            x += 1;
-            y += 1;
-        } else break;
+class Knight: public Piece {
+    public: Knight(int j): Piece(j) {
+        value = 4;
+        symbole = 75;
     }
-    y = 1;
-    while (1) {
+    void naiveMove(coord source, Chessboard tab);
+};
 
-        pos.x = i;
-        pos.y = j + y;
-        if (pos.verifcoord()) {
-            if (this -> verifami(pos, Tab))
-                break;
-
-            if (this -> verifennemi(pos, Tab)) {
-                this -> possibilites.ajoutliste(pos);
-                break;
-            }
-            this -> possibilites.ajoutliste(pos);
-            x += 1;
-            y += 1;
-        } else break;
+class King: public Piece {
+    public: King(int j): Piece(j) {
+        value = 999;
+        symbole = 244;
     }
-    y = 1;
-    while (1) {
-        pos.x = i;
-        pos.y = j - y;
-        if (pos.verifcoord()) {
-            if (this -> verifami(pos, Tab))
-                break;
+    void naiveMove(coord source, Chessboard tab);
+};
 
-            if (this -> verifennemi(pos, Tab)) {
-                this -> possibilites.ajoutliste(pos);
-                break;
-            }
-            this -> possibilites.ajoutliste(pos);
-            x += 1;
-            y += 1;
-        } else break;
-    }
-}
 
-void Bishop::naiveMove(coord source, Chessboard Tab) {
-    int i = source.x, j = source.y;
-    int x, y;
-    coord pos;
-    x = 1, y = 1;
-    this -> possibilites.~liste();
-    while (1) {
-        pos.x = i + x;
-        pos.y = j + y;
-        if (pos.verifcoord()) {
-            if (this -> verifami(pos, Tab))
-                break;
-
-            if (this -> verifennemi(pos, Tab)) {
-                this -> possibilites.ajoutliste(pos);
-                break;
-            }
-            this -> possibilites.ajoutliste(pos);
-            x += 1;
-            y += 1;
-        } else break;
-    }
-    x = 1, y = 1;
-    while (1) {
-        pos.x = i - x;
-        pos.y = j - y;
-        if (pos.verifcoord()) {
-            if (this -> verifami(pos, Tab))
-                break;
-
-            if (this -> verifennemi(pos, Tab)) {
-                this -> possibilites.ajoutliste(pos);
-                break;
-            }
-            this -> possibilites.ajoutliste(pos);
-            x += 1;
-            y += 1;
-        } else break;
-    }
-    x = 1, y = 1;
-    while (1) {
-
-        pos.x = i + x;
-        pos.y = j - y;
-        if (pos.verifcoord()) {
-            if (this -> verifami(pos, Tab))
-                break;
-
-            if (this -> verifennemi(pos, Tab)) {
-                this -> possibilites.ajoutliste(pos);
-                break;
-            }
-            this -> possibilites.ajoutliste(pos);
-            x += 1;
-            y += 1;
-        } else break;
-
-    }
-    x = 1, y = 1;
-    while (1) {
-
-        pos.x = i - x;
-        pos.y = j + y;
-        if (pos.verifcoord()) {
-            if (this -> verifami(pos, Tab))
-                break;
-
-            if (this -> verifennemi(pos, Tab)) {
-                this -> possibilites.ajoutliste(pos);
-                break;
-            }
-            this -> possibilites.ajoutliste(pos);
-            x += 1;
-            y += 1;
-        } else break;
-    }
-}
-
-void Rook::naiveMove(coord source, Chessboard Tab) {
-    int i = source.x, j = source.y;
-    int x, y;
-    coord pos;
-    x = 1, y = 1;
-    this -> possibilites.~liste();
-    while (1) {
-
-        pos.x = i + x;
-        pos.y = j;
-        if (pos.verifcoord()) {
-            if (this -> verifami(pos, Tab))
-                break;
-
-            if (this -> verifennemi(pos, Tab)) {
-                this -> possibilites.ajoutliste(pos);
-                break;
-            }
-            this -> possibilites.ajoutliste(pos);
-            x += 1;
-            y += 1;
-        } else break;
-    }
-    x = 1;
-    while (1) {
-
-        pos.x = i - x;
-        pos.y = j;
-        if (pos.verifcoord()) {
-            if (this -> verifami(pos, Tab))
-                break;
-
-            if (this -> verifennemi(pos, Tab)) {
-                this -> possibilites.ajoutliste(pos);
-                break;
-            }
-            this -> possibilites.ajoutliste(pos);
-            x += 1;
-            y += 1;
-        } else break;
-    }
-    y = 1;
-    while (1) {
-
-        pos.x = i;
-        pos.y = j + y;
-        if (pos.verifcoord()) {
-            if (this -> verifami(pos, Tab))
-                break;
-
-            if (this -> verifennemi(pos, Tab)) {
-                this -> possibilites.ajoutliste(pos);
-                break;
-            }
-            this -> possibilites.ajoutliste(pos);
-            x += 1;
-            y += 1;
-        } else break;
-    }
-    y = 1;
-    while (1) {
-        pos.x = i;
-        pos.y = j - y;
-        if (pos.verifcoord()) {
-            if (this -> verifami(pos, Tab))
-                break;
-
-            if (this -> verifennemi(pos, Tab)) {
-                this -> possibilites.ajoutliste(pos);
-                break;
-            }
-            this -> possibilites.ajoutliste(pos);
-            x += 1;
-            y += 1;
-        } else break;
-    }
-}
-
-void Pawn::naiveMove(coord source, Chessboard Tab) {
-    int i = source.x, j = source.y;
-    coord pos;
-    this -> possibilites.~liste();
-    if (this -> player == 1) {
-        pos.x = i - 1;
-        pos.y = j;
-        if ((!this -> verifami(pos, Tab)) && (!this -> verifennemi(pos, Tab)) && pos.verifcoord()) {
-            this -> possibilites.ajoutliste(pos);
-            pos.x = i - 2;
-            pos.y = j;
-            if ((i == 6) && (!this -> verifami(pos, Tab)) && (!this -> verifennemi(pos, Tab)))
-                this -> possibilites.ajoutliste(pos);
-        }
-        pos.x = i - 1;
-        pos.y = j + 1;
-        if ((this -> verifennemi(pos, Tab)) && pos.verifcoord())
-            this -> possibilites.ajoutliste(pos);
-        pos.x = i - 1;
-        pos.y = j - 1;
-        if ((this -> verifennemi(pos, Tab)) && pos.verifcoord())
-            this -> possibilites.ajoutliste(pos);
-    }
-    if (this -> player == 2) {
-        pos.x = i + 1;
-        pos.y = j;
-        if ((!this -> verifami(pos, Tab)) && (!this -> verifennemi(pos, Tab)) && pos.verifcoord()) {
-            this -> possibilites.ajoutliste(pos);
-            pos.x = i + 2;
-            pos.y = j;
-            if ((i == 1) && (!this -> verifami(pos, Tab)) && (!this -> verifennemi(pos, Tab)))
-                this -> possibilites.ajoutliste(pos);
-        }
-        pos.x = i + 1;
-        pos.y = j + 1;
-        if ((this -> verifennemi(pos, Tab)) && pos.verifcoord())
-            this -> possibilites.ajoutliste(pos);
-        pos.x = i + 1;
-        pos.y = j - 1;
-        if ((this -> verifennemi(pos, Tab)) && pos.verifcoord())
-            this -> possibilites.ajoutliste(pos);
-    }
-}
-
-void Knight::naiveMove(coord source, Chessboard Tab) {
-    int i = source.x, j = source.y;
-    this -> possibilites.~liste();
-    coord pos;
-    pos.x = i + 1;
-    pos.y = j + 2;
-    if ((!this -> verifami(pos, Tab)) && pos.verifcoord())
-        this -> possibilites.ajoutliste(pos);
-    pos.x = i - 1;
-    pos.y = j + 2;
-    if ((!this -> verifami(pos, Tab)) && pos.verifcoord())
-        this -> possibilites.ajoutliste(pos);
-    pos.x = i + 1;
-    pos.y = j - 2;
-    if ((!this -> verifami(pos, Tab)) && pos.verifcoord())
-        this -> possibilites.ajoutliste(pos);
-    pos.x = i - 1;
-    pos.y = j - 2;
-    if ((!this -> verifami(pos, Tab)) && pos.verifcoord())
-        this -> possibilites.ajoutliste(pos);
-    pos.x = i + 2;
-    pos.y = j + 1;
-    if ((!this -> verifami(pos, Tab)) && pos.verifcoord())
-        this -> possibilites.ajoutliste(pos);
-    pos.x = i + 2;
-    pos.y = j - 1;
-    if ((!this -> verifami(pos, Tab)) && pos.verifcoord())
-        this -> possibilites.ajoutliste(pos);
-    pos.x = i - 2;
-    pos.y = j + 1;
-    if ((!this -> verifami(pos, Tab)) && pos.verifcoord())
-        this -> possibilites.ajoutliste(pos);
-    pos.x = i - 2;
-    pos.y = j - 1;
-    if ((!this -> verifami(pos, Tab)) && pos.verifcoord())
-        this -> possibilites.ajoutliste(pos);
-}
-
-void King::naiveMove(coord source, Chessboard Tab) {
-    int i = source.x, j = source.y;
-    this -> possibilites.~liste();
-    coord pos;
-    pos.x = i + 1;
-    pos.y = j + 1;
-    if ((!this -> verifami(pos, Tab)) && pos.verifcoord())
-        this -> possibilites.ajoutliste(pos);
-    pos.x = i;
-    pos.y = j + 1;
-    if ((!this -> verifami(pos, Tab)) && pos.verifcoord())
-        this -> possibilites.ajoutliste(pos);
-    pos.x = i - 1;
-    pos.y = j + 1;
-    if ((!this -> verifami(pos, Tab)) && pos.verifcoord())
-        this -> possibilites.ajoutliste(pos);
-    pos.x = i - 1;
-    pos.y = j;
-    if ((!this -> verifami(pos, Tab)) && pos.verifcoord())
-        this -> possibilites.ajoutliste(pos);
-    pos.x = i + 1;
-    pos.y = j;
-    if ((!this -> verifami(pos, Tab)) && pos.verifcoord())
-        this -> possibilites.ajoutliste(pos);
-    pos.x = i - 1;
-    pos.y = j - 1;
-    if ((!this -> verifami(pos, Tab)) && pos.verifcoord())
-        this -> possibilites.ajoutliste(pos);
-    pos.x = i;
-    pos.y = j - 1;
-    if ((!this -> verifami(pos, Tab)) && pos.verifcoord())
-        this -> possibilites.ajoutliste(pos);
-    pos.x = i + 1;
-    pos.y = j - 1;
-    if ((!this -> verifami(pos, Tab)) && pos.verifcoord())
-        this -> possibilites.ajoutliste(pos);
-
-}
-
-#endif // CLASSPIECE_H_INCLUDED
+#endif // PIECE_H_INCLUDED

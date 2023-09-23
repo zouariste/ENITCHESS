@@ -1,5 +1,5 @@
-#ifndef PARTIE_H_INCLUDED
-#define PARTIE_H_INCLUDED
+#ifndef GAME_H_INCLUDED
+#define GAME_H_INCLUDED
 
 #include <SFML/Graphics.hpp>
 
@@ -798,10 +798,10 @@ void Game::saveGame() {
         for (int colonne = 0; colonne < 8; colonne++) {
             x.x = ligne;
             x.y = colonne;
-            if (this -> grille.Piececheck(x))
+            if (this -> grille.pieceCheck(x))
                 fichier << ligne << " " << colonne << " " << this -> grille.getPiece(x) -> value << " " << this -> grille.getPiece(x) -> player << endl;
         }
     }
 }
 
-#endif // PARTIE_H_INCLUDED
+#endif // GAME_H_INCLUDED
