@@ -2,7 +2,6 @@
 #define CHESSBOARD_H_INCLUDED
 
 #include "utils.h"
-
 #include <cstdio>
 
 class Player;
