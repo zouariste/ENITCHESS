@@ -9,17 +9,17 @@
 
 ## Prerequisite: Install SFML
 ```
-sudo apt-get install libsfml-dev
+make install_sfml
 ```
-## Now let's compile it: 
+## To build the EnitChess executable: 
 ```
-g++ -c main.cpp
+make
 ```
-## Let's now link the compiled file to the SFML libraries in order to get the final executable.
+## To clean the project directory (remove object files and the executable):
 ```
-g++ main.o -o EnitChess -lsfml-graphics -lsfml-window -lsfml-system
+make clean
 ```
-## We are now ready to execute the compiled program:
+## We are now ready to execute EnitChess:
 ```
 ./EnitChess
 ```
