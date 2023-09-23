@@ -15,8 +15,8 @@ using namespace std;
 int main() {
 
     Game x;
-    // To simulate a AI vs AI game, please choose the respective difficulty.
-    // x.white = new Ai(2); x.black = new Ai(1); x.white->color = 1; x.black->color = 2;
+    // To simulate a AI vs AI game, please uncomment and choose the respective difficulty.
+    // x.white = new Ai(3); x.black = new Ai(1); x.white->color = 1; x.black->color = 2;
     x.startgame();
 
 }

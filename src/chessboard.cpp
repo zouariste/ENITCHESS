@@ -126,19 +126,19 @@ void Chessboard::legalMoveOne(int i, int j, int nbtour) {
   pos.y = j;
   temp = this->getPiece(pos)->possibilites.head;
   while (this->getPiece(pos)->possibilites.head != NULL) {
-    Chessboard Taux(*this);
-    Taux.forceMove(pos, this->getPiece(pos)->possibilites.head->elt);
+    Chessboard rate(*this);
+    rate.forceMove(pos, this->getPiece(pos)->possibilites.head->elt);
     for (int i = 0; i < 8; i++)
       for (int j = 0; j < 8; j++) {
         loc.x = i;
         loc.y = j;
-        if (Taux.pieceCheck(loc))
-          if ((2 - (nbtour) % 2) == Taux.getPiece(loc)->player)
-            Taux.getPiece(loc)->naiveMove(loc, Taux);
+        if (rate.pieceCheck(loc))
+          if ((2 - (nbtour) % 2) == rate.getPiece(loc)->player)
+            rate.getPiece(loc)->naiveMove(loc, rate);
       }
 
-    pos2 = Taux.findKing(nbtour + 1);
-    if (Taux.check(nbtour + 1, pos2)) {
+    pos2 = rate.findKing(nbtour + 1);
+    if (rate.check(nbtour + 1, pos2)) {
       this->getPiece(pos)->possibilites.head = temp->succ;
       delete temp;
       temp = this->getPiece(pos)->possibilites.head;
@@ -147,19 +147,19 @@ void Chessboard::legalMoveOne(int i, int j, int nbtour) {
     }
   }
   while (temp != NULL) {
-    Chessboard Taux(*this);
-    Taux.forceMove(pos, temp->elt);
+    Chessboard rate(*this);
+    rate.forceMove(pos, temp->elt);
     coord loc;
     for (int i = 0; i < 8; i++)
       for (int j = 0; j < 8; j++) {
         loc.x = i;
         loc.y = j;
-        if (Taux.pieceCheck(loc))
-          if ((2 - (nbtour) % 2) == Taux.getPiece(loc)->player)
-            Taux.getPiece(loc)->naiveMove(loc, Taux);
+        if (rate.pieceCheck(loc))
+          if ((2 - (nbtour) % 2) == rate.getPiece(loc)->player)
+            rate.getPiece(loc)->naiveMove(loc, rate);
       }
-    pos2 = Taux.findKing(nbtour + 1);
-    if (temp != NULL && !Taux.check(nbtour + 1, pos2)) {
+    pos2 = rate.findKing(nbtour + 1);
+    if (temp != NULL && !rate.check(nbtour + 1, pos2)) {
       pred = temp;
       temp = temp->succ;
     } else if (temp == NULL)
@@ -201,7 +201,7 @@ void Chessboard::printChess() {
         ch = 32;
         q = 0;
       } else {
-        ch = this->Tab[i][j]->symbole;
+        ch = this->Tab[i][j]->symbol;
         q = this->Tab[i][j]->player;
       }
     }
@@ -217,9 +217,9 @@ void Chessboard::printChess() {
     for (int j = 0; j < 8; j++)
       if (this->Tab[i][j] != NULL) {
         cout << "coord" << i << "  " << j << "  type  ";
-        printf("%c", this->Tab[i][j]->symbole);
+        printf("%c", this->Tab[i][j]->symbol);
         cout << endl;
-        this->Tab[i][j]->possibilites.affichechaine();
+        this->Tab[i][j]->possibilites.printList();
         cout << endl;
       }
 }
@@ -232,7 +232,7 @@ int Chessboard::check(int ntour, coord coking) {
       loc.y = j;
       if (this->pieceCheck(loc))
         if ((this->Tab[i][j]->player == ntour % 2 + 1))
-          if ((this->Tab[i][j]->possibilites.cherchechaine(coking))) return 1;
+          if ((this->Tab[i][j]->possibilites.findLinkedList(coking))) return 1;
     }
   return 0;
 }

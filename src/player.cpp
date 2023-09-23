@@ -8,7 +8,7 @@ bool Human::decideMove(Chessboard& E, coord& ini, coord& dest) {
   if ((ini.verifcoord()) && (E.pieceCheck(ini)) &&
       (E.getPiece(ini)->player == this->color) &&
       (!(E.getPiece(ini)->possibilites.emptylist())) &&
-      (E.getPiece(ini)->possibilites.cherchechaine(dest)))
+      (E.getPiece(ini)->possibilites.findLinkedList(dest)))
     return true;
   else
     return false;

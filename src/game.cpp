@@ -28,7 +28,7 @@ Vector2f toCoord(char a, char b) {
   return Vector2f(x * 56, y * 56);
 }
 
-void affiche2(Chessboard& E, int board[8][8]) {
+void display(Chessboard& E, int board[8][8]) {
   int signe = 0, p;
   for (int i = 0; i < 8; i++)
     for (int j = 0; j < 8; j++) {
@@ -94,7 +94,7 @@ void loadPosition(int board[8][8], Sprite f[]) {
   for (int i = 0; i < position.length(); i += 5) move(position.substr(i, 4));
 }
 
-void menuchoix(int& mode) {
+void selectMenu(int& mode) {
   RenderWindow window(VideoMode(504, 604), "ENITCHESS");
   Texture t1, t2, t3, t4, t5, t6;
   Sprite f[5];
@@ -183,7 +183,7 @@ void aide() {
   }
 }
 
-void menudeb(Chessboard& E, int& nbtour, int& mode, Game* p) {
+void startMenu(Chessboard& E, int& nbtour, int& mode, Game* p) {
   RenderWindow window(VideoMode(504, 604), "ENITCHESS");
   Texture t1, t2, t3, t4, t5;
   Sprite f[4];
@@ -218,7 +218,7 @@ void menudeb(Chessboard& E, int& nbtour, int& mode, Game* p) {
         if (e.type == Event::MouseButtonPressed)
           if (e.key.code == Mouse::Left) {
             window.close();
-            menuchoix(mode);
+            selectMenu(mode);
             nbtour = 1;
             break;
             break;
@@ -227,7 +227,7 @@ void menudeb(Chessboard& E, int& nbtour, int& mode, Game* p) {
         if (e.type == Event::MouseButtonPressed)
           if (e.key.code == Mouse::Left) {
             window.close();
-            p->reprendreGame();
+            p->resumeGame();
             load = 1;
           }
       if (f[2].getGlobalBounds().contains(pos.x, pos.y))
@@ -349,7 +349,7 @@ Piece* Human::choosePiece() {
   }
 }
 
-void menufin(Chessboard& E, int nbtour, int mode) {
+void endMenu(Chessboard& E, int nbtour, int mode) {
   RenderWindow window(VideoMode(504, 604), "ENITCHESS");
   Texture t1, t2, t3, t4, t5, t6, t7, t8;
   Sprite f[2];
@@ -410,11 +410,9 @@ void menufin(Chessboard& E, int nbtour, int mode) {
   }
 }
 
-Game::Game()  // a remplacer pour save load et a ajouter deplacement legal NB
-              // elle utilise nbtour+1
-{
+Game::Game() {
   int nb, mode;
-  menudeb(this->grille, nb, mode, this);
+  startMenu(this->chessboard, nb, mode, this);
   this->nbtour = nb;
   this->white = new Human;
   if (mode == 1)
@@ -425,16 +423,16 @@ Game::Game()  // a remplacer pour save load et a ajouter deplacement legal NB
   white->color = 1;
 }
 
-void essaye(Sprite& f, int x, int y) { f.setPosition(56 * x, 56 * y); }
+void tryMove(Sprite& f, int x, int y) { f.setPosition(56 * x, 56 * y); }
 
 void Game::startgame() {
   Sprite f[35];  // Pieces
   RenderWindow window(VideoMode(504, 560), "ENITCHESS");
   Texture t1, t2, t3, t4, t5, t6, t7, t8, t9, t10;
-  if (load == 0) this->grille.initializeChessboard();
-  this->grille.naiveMove(1);
-  this->grille.naiveMove(2);
-  affiche2(this->grille, board);
+  if (load == 0) this->chessboard.initializeChessboard();
+  this->chessboard.naiveMove(1);
+  this->chessboard.naiveMove(2);
+  display(this->chessboard, board);
   int size = 56, s = 0;
   t1.loadFromFile("img/Pieces.png");
   t2.loadFromFile("img/Chessboard.png");
@@ -497,11 +495,10 @@ void Game::startgame() {
   Vector2f oldPos, newPos, var;
   std::string str;
   int n = 0;
-  this->grille.naiveMove(nbtour + 1);
-  this->grille.naiveMove(nbtour);
-  this->grille.legalMove(nbtour);
+  this->chessboard.naiveMove(nbtour + 1);
+  this->chessboard.naiveMove(nbtour);
+  this->chessboard.legalMove(nbtour);
   while (window.isOpen()) {
-    // if (load2) { window.close(); load2 = 0; break; }
     Vector2i pos = Mouse::getPosition(window) - Vector2i(offset);
     Event e;
 
@@ -515,7 +512,7 @@ void Game::startgame() {
           this->saveGame();
           window.close();
           system("cls");
-          this->grille.initializeChessboard();
+          this->chessboard.initializeChessboard();
           this->nbtour = 1;
           Game x;
           x.startgame();
@@ -549,15 +546,13 @@ void Game::startgame() {
           ini.y = (int)oldPos.x / 56;
           dest.x = (int)newPos.y / 56;
           dest.y = (int)newPos.x / 56;
-          // std::cout << ini.x << ' ' << ini.y << endl;
-          // std::cout << dest.x << ' ' << dest.y << endl;
           if (nbtour % 2) {
             bool Pawn = false;
-            test = this->white->decideMove(this->grille, ini, dest);
+            test = this->white->decideMove(this->chessboard, ini, dest);
             if (test) {
-              int x = this->grille.getPiece(ini)->value;
-              this->grille.move(ini, dest, white);
-              if (x != this->grille.getPiece(dest)->value) {
+              int x = this->chessboard.getPiece(ini)->value;
+              this->chessboard.move(ini, dest, white);
+              if (x != this->chessboard.getPiece(dest)->value) {
                 window.close();
                 load = 1;
                 this->startgame();
@@ -565,33 +560,32 @@ void Game::startgame() {
                 break;
               }
 
-              this->grille.naiveMove(nbtour + 1);
-              this->grille.legalMove(nbtour);
+              this->chessboard.naiveMove(nbtour + 1);
+              this->chessboard.legalMove(nbtour);
             }
           } else {
-            test = this->black->decideMove(this->grille, ini, dest);
+            test = this->black->decideMove(this->chessboard, ini, dest);
             if (test) {
-              int x = this->grille.getPiece(ini)->value;
-              this->grille.move(ini, dest, black);
-              if (x != this->grille.getPiece(dest)->value) {
+              int x = this->chessboard.getPiece(ini)->value;
+              this->chessboard.move(ini, dest, black);
+              if (x != this->chessboard.getPiece(dest)->value) {
                 window.close();
                 load = 1;
                 this->startgame();
                 break;
                 break;
               }
-              this->grille.naiveMove(nbtour + 1);
-              this->grille.legalMove(nbtour);
+              this->chessboard.naiveMove(nbtour + 1);
+              this->chessboard.legalMove(nbtour);
             }
           }
           if (test) {
             str = toChessNote(oldPos) + toChessNote(newPos);
-            // move(str, f);
             if (oldPos != newPos) position += str + " ";
             f[n].setPosition(newPos);
-            if (this->grille.endGame(nbtour + 1)) {
+            if (this->chessboard.endGame(nbtour + 1)) {
               window.close();
-              menufin(this->grille, nbtour, mode);
+              endMenu(this->chessboard, nbtour, mode);
               break;
               break;
             }
@@ -616,12 +610,12 @@ void Game::startgame() {
     for (int i = 0; i < 32; i++) f[i].move(-offset);
     window.display();
     if ((s == 1) || ((mode != 1) && (nbtour % 2 == 0))) {
-      this->grille.naiveMove(nbtour + 1);
-      this->grille.legalMove(nbtour);
+      this->chessboard.naiveMove(nbtour + 1);
+      this->chessboard.legalMove(nbtour);
       if (nbtour % 2)
-        test = this->white->decideMove(this->grille, ini, dest);
+        test = this->white->decideMove(this->chessboard, ini, dest);
       else
-        test = this->black->decideMove(this->grille, ini, dest);
+        test = this->black->decideMove(this->chessboard, ini, dest);
 
       if (test) {
         oldPos.x = ini.y * 56;
@@ -635,9 +629,9 @@ void Game::startgame() {
           if (f[i].getPosition() == oldPos) f[i].setPosition(newPos);
 
         if (nbtour % 2) {
-          int x = this->grille.getPiece(ini)->value;
-          this->grille.move(ini, dest, white);
-          if (x != this->grille.getPiece(dest)->value) {
+          int x = this->chessboard.getPiece(ini)->value;
+          this->chessboard.move(ini, dest, white);
+          if (x != this->chessboard.getPiece(dest)->value) {
             window.close();
             load = 1;
             this->startgame();
@@ -645,9 +639,9 @@ void Game::startgame() {
             break;
           }
         } else {
-          int x = this->grille.getPiece(ini)->value;
-          this->grille.move(ini, dest, black);
-          if (x != this->grille.getPiece(dest)->value) {
+          int x = this->chessboard.getPiece(ini)->value;
+          this->chessboard.move(ini, dest, black);
+          if (x != this->chessboard.getPiece(dest)->value) {
             window.close();
             load = 1;
             this->startgame();
@@ -655,14 +649,12 @@ void Game::startgame() {
             break;
           }
         }
-        this->grille.naiveMove(nbtour + 1);
-        this->grille.legalMove(nbtour);
+        this->chessboard.naiveMove(nbtour + 1);
+        this->chessboard.legalMove(nbtour);
 
-        // std::cout << "move"<<ini.x << ' ' << ini.y << ' ' << dest.x << ' ' <<
-        // dest.y << endl;
-        if (this->grille.endGame(nbtour)) {
+        if (this->chessboard.endGame(nbtour)) {
           window.close();
-          menufin(this->grille, nbtour, mode);
+          endMenu(this->chessboard, nbtour, mode);
         }
         usleep(500);
         this->nbtour++;
@@ -670,7 +662,6 @@ void Game::startgame() {
     }
     if (isMove) f[n].setPosition(pos.x - dx, pos.y - dy);
 
-    ////// dessiner le tout  ///////
     window.clear();
     window.draw(sBoard);
     for (int i = 0; i < 32; i++) f[i].move(offset);
@@ -686,23 +677,23 @@ void Game::startgame() {
   }
 }
 
-void Game::reprendreGame() {
-  int ligne, colonne, value, player;
+void Game::resumeGame() {
+  int lign, column, value, player;
   coord x;
   int difficulty;
-  std::string chemin;
-  cout << "Tapez le chemin:" << endl;
-  cin >> chemin;
-  ifstream fichier(chemin.c_str());
-  if (fichier.is_open()) {
+  std::string myPath;
+  cout << "Enter the path:" << endl;
+  cin >> myPath;
+  ifstream myFile(myPath.c_str());
+  if (myFile.is_open()) {
     int n;
-    fichier >> this->nbtour;
-    fichier >> difficulty;
+    myFile >> this->nbtour;
+    myFile >> difficulty;
     if (difficulty == 0)
       this->white = new Human;
     else
       this->white = new Ai(difficulty);
-    fichier >> difficulty;
+    myFile >> difficulty;
     if (difficulty == 0)
       this->black = new Human;
     else
@@ -710,9 +701,9 @@ void Game::reprendreGame() {
     difsim = difficulty;
     this->black->color = 2;
     this->white->color = 1;
-    while (fichier >> ligne >> colonne >> value >> player) {
-      x.x = ligne;
-      x.y = colonne;
+    while (myFile >> lign >> column >> value >> player) {
+      x.x = lign;
+      x.y = column;
       Piece* input = NULL;
       switch (value) {
         case 999:
@@ -734,34 +725,34 @@ void Game::reprendreGame() {
           input = new Queen(player);
           break;
       }
-      this->grille.setPiece(input, x);
+      this->chessboard.setPiece(input, x);
     }
-    fichier.close();
-    this->grille.naiveMove(this->nbtour + 1);
-    this->grille.legalMove(this->nbtour);
+    myFile.close();
+    this->chessboard.naiveMove(this->nbtour + 1);
+    this->chessboard.legalMove(this->nbtour);
     load = 1;
     this->startgame();
   } else
-    cout << "erreur:fichier introuvable" << endl;
+    cout << "Error: File not found" << endl;
 }
 
 void Game::saveGame() {
-  std::string chemin;
-  cout << "Tapez le chemin:" << endl;
-  cin >> chemin;
-  ofstream fichier(chemin.c_str(), ios::trunc);
+  std::string myPath;
+  cout << "Enter the path:" << endl;
+  cin >> myPath;
+  ofstream myFile(myPath.c_str(), ios::trunc);
   coord x;
-  fichier << this->nbtour << endl;
-  fichier << this->white->demandersauvegarde() << endl;
-  fichier << this->black->demandersauvegarde() << endl;
-  for (int ligne = 0; ligne < 8; ligne++) {
-    for (int colonne = 0; colonne < 8; colonne++) {
-      x.x = ligne;
-      x.y = colonne;
-      if (this->grille.pieceCheck(x))
-        fichier << ligne << " " << colonne << " "
-                << this->grille.getPiece(x)->value << " "
-                << this->grille.getPiece(x)->player << endl;
+  myFile << this->nbtour << endl;
+  myFile << this->white->requestSave() << endl;
+  myFile << this->black->requestSave() << endl;
+  for (int lign = 0; lign < 8; lign++) {
+    for (int column = 0; column < 8; column++) {
+      x.x = lign;
+      x.y = column;
+      if (this->chessboard.pieceCheck(x))
+        myFile << lign << " " << column << " "
+               << this->chessboard.getPiece(x)->value << " "
+               << this->chessboard.getPiece(x)->player << endl;
     }
   }
 }

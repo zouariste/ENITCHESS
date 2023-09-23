@@ -2,26 +2,28 @@
 #define GAME_H_INCLUDED
 
 #include <time.h>
-#include <iostream>
-#include "utils.h"
-#include "chessboard.h"
-#include "player.h"
 #include <unistd.h>
 
-class Game {
-public:
-    Chessboard grille;
-    Player* white;
-    Player* black;
-    int nbtour;
+#include <iostream>
 
-    Game();
-    void startgame();
-    void move(coord ini, coord dest, Player* qui);
-    friend ostream& operator<<(ostream&, Game&);
-    friend istream& operator>>(istream&, Game&);
-    void reprendreGame();
-    void saveGame();
+#include "chessboard.h"
+#include "player.h"
+#include "utils.h"
+
+class Game {
+ public:
+  Chessboard chessboard;
+  Player* white;
+  Player* black;
+  int nbtour;
+
+  Game();
+  void startgame();
+  void move(coord ini, coord dest, Player* qui);
+  friend ostream& operator<<(ostream&, Game&);
+  friend istream& operator>>(istream&, Game&);
+  void resumeGame();
+  void saveGame();
 };
 
-#endif // GAME_H_INCLUDED
+#endif  // GAME_H_INCLUDED
