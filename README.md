@@ -1,6 +1,6 @@
 ## ENITCHESS
 * Drag and drop C++ Chess game.
-* Implementation of some basics artificial intelligence algorithms : Alpha–beta pruning - Minmax Algorithm.
+* Player vs. CPU mode with search algorithms (Alpha–Beta pruning and Minimax) used for determining the CPU's next move.
 
 ## Screenshot
 <div>
