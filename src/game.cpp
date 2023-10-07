@@ -511,7 +511,7 @@ void Game::startgame() {
             (e.key.code == Mouse::Left)) {
           this->saveGame();
           window.close();
-          system("cls");
+          system("clear");
           this->chessboard.initializeChessboard();
           this->nbtour = 1;
           Game x;
@@ -550,6 +550,10 @@ void Game::startgame() {
             bool Pawn = false;
             test = this->white->decideMove(this->chessboard, ini, dest);
             if (test) {
+              for (int i = 0; i < 32; i++)
+                if (f[i].getPosition() == newPos) f[i].setPosition(-100, -100);
+              for (int i = 0; i < 32; i++)
+                if (f[i].getPosition() == oldPos) f[i].setPosition(newPos);
               int x = this->chessboard.getPiece(ini)->value;
               this->chessboard.move(ini, dest, white);
               if (x != this->chessboard.getPiece(dest)->value) {
@@ -566,6 +570,10 @@ void Game::startgame() {
           } else {
             test = this->black->decideMove(this->chessboard, ini, dest);
             if (test) {
+              for (int i = 0; i < 32; i++)
+                if (f[i].getPosition() == newPos) f[i].setPosition(-100, -100);
+              for (int i = 0; i < 32; i++)
+                if (f[i].getPosition() == oldPos) f[i].setPosition(newPos);
               int x = this->chessboard.getPiece(ini)->value;
               this->chessboard.move(ini, dest, black);
               if (x != this->chessboard.getPiece(dest)->value) {
